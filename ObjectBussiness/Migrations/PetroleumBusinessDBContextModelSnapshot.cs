@@ -144,7 +144,7 @@ namespace ObjectBussiness.Migrations
                     b.Property<int>("AccountID")
                         .HasColumnType("int");
 
-                    b.Property<string>("Content")
+                    b.Property<string>("Contents")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

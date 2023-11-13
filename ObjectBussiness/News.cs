@@ -14,7 +14,7 @@ namespace ObjectBussiness
         [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int NewsID { get; set; }
         public string Title { get; set; }
-        public string Content { get; set; }
+        public string Contents { get; set; }
         public string Picture { get; set; }
         //Person create news
         public int AccountID { get; set; }

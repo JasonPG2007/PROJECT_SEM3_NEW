@@ -210,7 +210,7 @@ namespace ObjectBussiness.Migrations
                 {
                     NewsID = table.Column<int>(type: "int", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Contents = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Picture = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AccountID = table.Column<int>(type: "int", nullable: false),
                     DateSubmitted = table.Column<DateTime>(type: "datetime2", nullable: false)
