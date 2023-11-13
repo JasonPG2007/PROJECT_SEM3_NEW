@@ -12,7 +12,7 @@ using ObjectBussiness;
 namespace ObjectBussiness.Migrations
 {
     [DbContext(typeof(PetroleumBusinessDBContext))]
-    [Migration("20231113071630_Initial")]
+    [Migration("20231113073224_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -237,6 +237,11 @@ namespace ObjectBussiness.Migrations
                         {
                             RoleID = 2,
                             RoleName = "Candidate"
+                        },
+                        new
+                        {
+                            RoleID = 3,
+                            RoleName = "Employee"
                         });
                 });
 

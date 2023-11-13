@@ -234,6 +234,11 @@ namespace ObjectBussiness.Migrations
                         {
                             RoleID = 2,
                             RoleName = "Candidate"
+                        },
+                        new
+                        {
+                            RoleID = 3,
+                            RoleName = "Employee"
                         });
                 });
 

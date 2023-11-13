@@ -232,7 +232,8 @@ namespace ObjectBussiness.Migrations
                 values: new object[,]
                 {
                     { 1, "Admin" },
-                    { 2, "Candidate" }
+                    { 2, "Candidate" },
+                    { 3, "Employee" }
                 });
 
             migrationBuilder.CreateIndex(

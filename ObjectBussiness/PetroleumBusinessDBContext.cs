@@ -29,7 +29,8 @@ namespace ObjectBussiness
             //Add data table Role
             modelBuilder.Entity<Role>().HasData(
                 new Role { RoleID = 1, RoleName = "Admin" },
-                new Role { RoleID = 2, RoleName = "Candidate" });
+                new Role { RoleID = 2, RoleName = "Candidate" },
+                new Role { RoleID = 3, RoleName = "Employee" });
         }
     }
 }
