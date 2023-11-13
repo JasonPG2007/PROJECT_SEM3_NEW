@@ -9,10 +9,10 @@ namespace Repository
 {
     public interface IResultRepository
     {
-        public IEnumerable<Result> GetResults();
-        public Result GetResultById(int id);
-        public void InsertResult(Result result);
-        public void UpdateResult(Result result);
-        public void DeleteResult(Result result);
+        public IEnumerable<ResultOfCandidate> GetResults();
+        public ResultOfCandidate GetResultById(int id);
+        public void InsertResult(ResultOfCandidate result);
+        public void UpdateResult(ResultOfCandidate result);
+        public void DeleteResult(ResultOfCandidate result);
     }
 }

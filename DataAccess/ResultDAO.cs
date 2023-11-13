@@ -25,45 +25,45 @@ namespace DataAccess
                 }
             }
         }
-        public IEnumerable<Result> GetResults()
+        public IEnumerable<ResultOfCandidate> GetResults()
         {
-            using var context = new ProjectDBContext();
-            var listResult = context.Results.ToList();
+            using var context = new PetroleumBusinessDBContext();
+            var listResult = context.ResultOfCandidates.ToList();
             return listResult;
         }
-        public Result GetResultById(int id)
+        public ResultOfCandidate GetResultById(int id)
         {
-            using var context = new ProjectDBContext();
-            var result = context.Results.FirstOrDefault(r => r.ResultId == id);
+            using var context = new PetroleumBusinessDBContext();
+            var result = context.ResultOfCandidates.FirstOrDefault(r => r.ResultOfCandidateID == id);
             return result;
         }
-        public void InsertResult(Result result)
+        public void InsertResult(ResultOfCandidate result)
         {
-            using var context = new ProjectDBContext();
-            var checkContains = GetResultById(result.ResultId);
+            using var context = new PetroleumBusinessDBContext();
+            var checkContains = GetResultById(result.ResultOfCandidateID);
             if (checkContains == null)
             {
-                context.Results.Add(result);
+                context.ResultOfCandidates.Add(result);
                 context.SaveChanges();
             }
         }
-        public void UpdateResult(Result result)
+        public void UpdateResult(ResultOfCandidate result)
         {
-            using var context = new ProjectDBContext();
-            var checkContains = GetResultById(result.ResultId);
+            using var context = new PetroleumBusinessDBContext();
+            var checkContains = GetResultById(result.ResultOfCandidateID);
             if (checkContains != null)
             {
-                context.Entry<Result>(result).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                context.Entry<ResultOfCandidate>(result).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 context.SaveChanges();
             }
         }
-        public void DeleteResult(Result result)
+        public void DeleteResult(ResultOfCandidate result)
         {
-            using var context = new ProjectDBContext();
-            var checkContains = GetResultById(result.ResultId);
+            using var context = new PetroleumBusinessDBContext();
+            var checkContains = GetResultById(result.ResultOfCandidateID);
             if (checkContains != null)
             {
-                context.Results.Remove(result);
+                context.ResultOfCandidates.Remove(result);
                 context.SaveChanges();
             }
         }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ObjectBussiness.Result>
+﻿@model IEnumerable<ObjectBussiness.ResultOfCandidate>
 
 @{
     ViewData["Title"] = "Index";
@@ -14,10 +14,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ResultId)
+                @Html.DisplayNameFor(model => model.ResultOfCandidateID)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.QuestionId)
+                @Html.DisplayNameFor(model => model.TestID)
             </th>
             <th></th>
         </tr>
@@ -27,15 +27,15 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ResultId)
+                    @Html.DisplayFor(modelItem => item.ResultOfCandidateID)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.QuestionId)
+                    @Html.DisplayFor(modelItem => item.TestID)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.ResultId }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.ResultId }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ResultId })
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ResultOfCandidateID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.ResultOfCandidateID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ResultOfCandidateID })
                 </td>
             </tr>
         }

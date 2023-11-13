@@ -17,14 +17,14 @@ namespace WebAPI.Controllers
         }
         // GET: api/<ResultController>
         [HttpGet]
-        public IEnumerable<Result> Get()
+        public IEnumerable<ResultOfCandidate> Get()
         {
             return _resultRepository.GetResults();
         }
 
         // GET api/<ResultController>/5
         [HttpGet("{id}")]
-        public Result Get(int id)
+        public ResultOfCandidate Get(int id)
         {
             var checkContains = _resultRepository.GetResultById(id);
             return checkContains;
@@ -32,14 +32,14 @@ namespace WebAPI.Controllers
 
         // POST api/<ResultController>
         [HttpPost]
-        public void Post(Result result)
+        public void Post(ResultOfCandidate result)
         {
             _resultRepository.InsertResult(result);
         }
 
         // PUT api/<ResultController>/5
         [HttpPut("{id}")]
-        public void Put(Result result)
+        public void Put(ResultOfCandidate result)
         {
             _resultRepository.UpdateResult(result);
         }

@@ -9,10 +9,10 @@ namespace Repository
 {
     public interface IQuestionRepository
     {
-        public IEnumerable<Question> GetQuestion();
-        public Question GetQuestionById(int id);
-        public void InsertQuestion(Question question);
-        public void UpdateQuestion(Question question);
-        public void DeleteQuestion(Question question);
+        public IEnumerable<Test> GetQuestion();
+        public Test GetQuestionById(int id);
+        public void InsertQuestion(Test question);
+        public void UpdateQuestion(Test question);
+        public void DeleteQuestion(Test question);
     }
 }

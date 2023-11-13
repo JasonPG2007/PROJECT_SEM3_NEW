@@ -26,7 +26,7 @@ namespace WebMVC.Controllers
             {
                 PropertyNameCaseInsensitive = true,
             };
-            List<Result> questionsList = JsonSerializer.Deserialize<List<Result>>(data, options);
+            List<ResultOfCandidate> questionsList = JsonSerializer.Deserialize<List<ResultOfCandidate>>(data, options);
             return View(questionsList);
         }
 
@@ -45,7 +45,7 @@ namespace WebMVC.Controllers
             {
                 PropertyNameCaseInsensitive = true
             };
-            List<Result> listResult = JsonSerializer.Deserialize<List<Result>>(data, options);
+            List<ResultOfCandidate> listResult = JsonSerializer.Deserialize<List<ResultOfCandidate>>(data, options);
             ViewBag.LIST = listResult;
             return View();
         }

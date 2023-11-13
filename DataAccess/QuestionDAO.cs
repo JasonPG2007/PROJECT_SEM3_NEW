@@ -20,45 +20,45 @@ namespace DataAccess
                 }
             }
         }
-        public IEnumerable<Question> GetQuestion()
+        public IEnumerable<Test> GetQuestion()
         {
-            using var context = new ProjectDBContext();
-            var listQuestion = context.Questions.ToList();
+            using var context = new PetroleumBusinessDBContext();
+            var listQuestion = context.Testes.ToList();
             return listQuestion;
         }
-        public Question GetQuestionById(int id)
+        public Test GetQuestionById(int id)
         {
-            using var context = new ProjectDBContext();
-            var question = context.Questions.FirstOrDefault(q => q.QuestionId == id);
+            using var context = new PetroleumBusinessDBContext();
+            var question = context.Testes.FirstOrDefault(q => q.TestID == id);
             return question;
         }
-        public void InsertQuestion(Question question)
+        public void InsertQuestion(Test question)
         {
-            using var context = new ProjectDBContext();
-            var checkContains = GetQuestionById(question.QuestionId);
+            using var context = new PetroleumBusinessDBContext();
+            var checkContains = GetQuestionById(question.TestID);
             if (checkContains == null)
             {
-                context.Questions.Add(question);
+                context.Testes.Add(question);
                 context.SaveChanges();
             }
         }
-        public void UpdateQuestion(Question question)
+        public void UpdateQuestion(Test question)
         {
-            using var context = new ProjectDBContext();
-            var checkContains = GetQuestionById(question.QuestionId);
+            using var context = new PetroleumBusinessDBContext();
+            var checkContains = GetQuestionById(question.TestID);
             if (checkContains != null)
             {
-                context.Entry<Question>(question).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                context.Entry<Test>(question).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 context.SaveChanges();
             }
         }
-        public void DeleteQuestion(Question question)
+        public void DeleteQuestion(Test question)
         {
-            using var context = new ProjectDBContext();
-            var checkContains = GetQuestionById(question.QuestionId);
+            using var context = new PetroleumBusinessDBContext();
+            var checkContains = GetQuestionById(question.TestID);
             if (checkContains != null)
             {
-                context.Questions.Remove(question);
+                context.Testes.Remove(question);
                 context.SaveChanges();
             }
         }

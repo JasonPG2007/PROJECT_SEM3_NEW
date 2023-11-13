@@ -9,19 +9,16 @@ using System.Threading.Tasks;
 
 namespace ObjectBussiness
 {
-    public class Question
+    public class Round
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
-        [Display(Name = "Question ID")]
-        public int QuestionID { get; set; }
+        [Display(Name = "Round ID")]
+        public int RoundID { get; set; }
         [Display(Name = "Test ID")]
         public int TestID { get; set; }
-        [Display(Name = "Question name")]
-        public string QuestionName { get; set; }
-        public string CorrectAnswer { get; set; }
-        public double Point { get; set; }
-        public string? Note { get; set; }
+        [Display(Name = "Round Number")]
+        public int RoundNumber { get; set; }
         [JsonIgnore]
-        public virtual Test? Test { get; set; }
+        public virtual Test? Tests { get; set; }
     }
 }

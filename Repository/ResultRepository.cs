@@ -10,13 +10,13 @@ namespace Repository
 {
     public class ResultRepository : IResultRepository
     {
-        public void DeleteResult(Result result) => ResultDAO.Instance.DeleteResult(result);
-        public Result GetResultById(int id) => ResultDAO.Instance.GetResultById(id);
+        public void DeleteResult(ResultOfCandidate result) => ResultDAO.Instance.DeleteResult(result);
+        public ResultOfCandidate GetResultById(int id) => ResultDAO.Instance.GetResultById(id);
 
-        public IEnumerable<Result> GetResults() => ResultDAO.Instance.GetResults();
+        public IEnumerable<ResultOfCandidate> GetResults() => ResultDAO.Instance.GetResults();
 
-        public void InsertResult(Result result) => ResultDAO.Instance.InsertResult(result);
+        public void InsertResult(ResultOfCandidate result) => ResultDAO.Instance.InsertResult(result);
 
-        public void UpdateResult(Result result) => ResultDAO.Instance.UpdateResult(result);
+        public void UpdateResult(ResultOfCandidate result) => ResultDAO.Instance.UpdateResult(result);
     }
 }

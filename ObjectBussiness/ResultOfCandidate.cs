@@ -9,12 +9,17 @@ using System.Text.Json.Serialization;
 
 namespace ObjectBussiness
 {
-    public class Result
+    public class ResultOfCandidate
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int ResultId { get; set; }
-        public int QuestionId { get; set; }
+        [Display(Name = "ResultOfCandidate ID")]
+        public int ResultOfCandidateID { get; set; }
+        [ForeignKey("Test")]
+        [Display(Name = "Test ID")]
+        public int TestID { get; set; }
         [JsonIgnore]
-        public virtual Question? Question { get; set; }
+        public virtual Test? Test { get; set; }
+        [JsonIgnore]
+        public virtual Elect? Elect { get; set; }
     }
 }

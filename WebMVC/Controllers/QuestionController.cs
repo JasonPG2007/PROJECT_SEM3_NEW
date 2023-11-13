@@ -26,7 +26,7 @@ namespace WebMVC.Controllers
             {
                 PropertyNameCaseInsensitive = true,
             };
-            List<Question> questionsList = JsonSerializer.Deserialize<List<Question>>(data, options);
+            List<Test> questionsList = JsonSerializer.Deserialize<List<Test>>(data, options);
             return View(questionsList);
         }
 
@@ -45,12 +45,12 @@ namespace WebMVC.Controllers
         // POST: QuestionMVCController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(Question question)
+        public async Task<ActionResult> Create(Test question)
         {
             try
             {
                 Random random = new Random();
-                question.QuestionId = random.Next();
+                question.TestID = random.Next();
                 var data = JsonSerializer.Serialize(question);
                 var typeData = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
                 HttpResponseMessage responseMessage = await httpClient.PostAsync(ApiUrl, typeData);
@@ -75,14 +75,14 @@ namespace WebMVC.Controllers
             {
                 PropertyNameCaseInsensitive = true,
             };
-            Question questions = JsonSerializer.Deserialize<Question>(data, options);
+            Test questions = JsonSerializer.Deserialize<Test>(data, options);
             return View(questions);
         }
 
         // POST: QuestionMVCController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(int id, Question question)
+        public async Task<ActionResult> Edit(int id, Test question)
         {
             try
             {
@@ -110,7 +110,7 @@ namespace WebMVC.Controllers
             {
                 PropertyNameCaseInsensitive = true,
             };
-            Question questions = JsonSerializer.Deserialize<Question>(data, options);
+            Test questions = JsonSerializer.Deserialize<Test>(data, options);
             return View(questions);
         }
 

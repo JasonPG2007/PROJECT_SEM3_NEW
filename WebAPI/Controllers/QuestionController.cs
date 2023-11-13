@@ -17,14 +17,14 @@ namespace WebAPI.Controllers
         }
         // GET: api/<QuestionAPIController>
         [HttpGet]
-        public IEnumerable<Question> Get()
+        public IEnumerable<Test> Get()
         {
             return questionRepository.GetQuestion();
         }
 
         // GET api/<QuestionAPIController>/5
         [HttpGet("{id}")]
-        public Question Get(int id)
+        public Test Get(int id)
         {
             var question = questionRepository.GetQuestionById(id);
             return question;
@@ -32,14 +32,14 @@ namespace WebAPI.Controllers
 
         // POST api/<QuestionAPIController>
         [HttpPost]
-        public void Post(Question question)
+        public void Post(Test question)
         {
             questionRepository.InsertQuestion(question);
         }
 
         // PUT api/<QuestionAPIController>/5
         [HttpPut("{id}")]
-        public void Put(Question question)
+        public void Put(Test question)
         {
             questionRepository.UpdateQuestion(question);
         }
