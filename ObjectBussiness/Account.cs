@@ -14,9 +14,9 @@ namespace ObjectBussiness
         [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Display(Name = "Account ID")]
         public int AccountID { get; set; }
-        [ForeignKey("Test")]
-        [Display(Name = "Test ID")]
-        public int TestID { get; set; }
+        [Display(Name = "Exam ID")]
+        public int ExamID { get; set; }
+        [ForeignKey("ExamRegister")]
         [Display(Name = "Exam Register ID")]
         public int ExamRegisterID { get; set; }
         public string Password { get; set; }
@@ -25,7 +25,7 @@ namespace ObjectBussiness
         [JsonIgnore]
         public virtual ICollection<News>? News { get; set; }
         [JsonIgnore]
-        public virtual Test? Test { get; set; }
+        public virtual Exam? Exam { get; set; }
         [JsonIgnore]
         public virtual ExamRegister? ExamRegister { get; set; }
     }

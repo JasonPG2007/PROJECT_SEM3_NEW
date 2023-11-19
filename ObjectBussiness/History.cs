@@ -9,14 +9,12 @@ using System.Threading.Tasks;
 
 namespace ObjectBussiness
 {
-    public class Elect
+    public class History
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
-        [Display(Name = "Elect ID")]
-        public int ElectID { get; set; }
-        [Display(Name = "Result Elect")]
-        public bool ResultElect { get; set; }
+        public int HistoryID { get; set; }
+        public DateTime DateCreated{ get; set; }
         [JsonIgnore]
-        public virtual ICollection<ResultCandidate>? ResultCandidate { get; set; }
+        public virtual ICollection<ResultCandidate>? ResultCandidates { get; set; }
     }
 }

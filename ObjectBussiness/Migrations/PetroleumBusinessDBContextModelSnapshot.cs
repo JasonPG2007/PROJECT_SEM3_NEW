@@ -27,6 +27,9 @@ namespace ObjectBussiness.Migrations
                     b.Property<int>("AccountID")
                         .HasColumnType("int");
 
+                    b.Property<int>("ExamID")
+                        .HasColumnType("int");
+
                     b.Property<int>("ExamRegisterID")
                         .HasColumnType("int");
 
@@ -34,47 +37,14 @@ namespace ObjectBussiness.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TestID")
-                        .HasColumnType("int");
-
                     b.HasKey("AccountID");
+
+                    b.HasIndex("ExamID");
 
                     b.HasIndex("ExamRegisterID")
                         .IsUnique();
 
-                    b.HasIndex("TestID")
-                        .IsUnique();
-
                     b.ToTable("Accounts");
-                });
-
-            modelBuilder.Entity("ObjectBussiness.Candidate", b =>
-                {
-                    b.Property<int>("CandidateID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Age")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CandidateName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Hometown")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("CandidateID");
-
-                    b.ToTable("Candidates");
                 });
 
             modelBuilder.Entity("ObjectBussiness.Decentralization", b =>
@@ -109,15 +79,37 @@ namespace ObjectBussiness.Migrations
                     b.Property<bool>("ResultElect")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ResultOfCandidateID")
-                        .HasColumnType("int");
-
                     b.HasKey("ElectID");
 
-                    b.HasIndex("ResultOfCandidateID")
-                        .IsUnique();
-
                     b.ToTable("Elects");
+
+                    b.HasData(
+                        new
+                        {
+                            ElectID = 1,
+                            ResultElect = true
+                        },
+                        new
+                        {
+                            ElectID = 2,
+                            ResultElect = false
+                        });
+                });
+
+            modelBuilder.Entity("ObjectBussiness.Exam", b =>
+                {
+                    b.Property<int>("ExamID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateCreateTest")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ExamDay")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ExamID");
+
+                    b.ToTable("Exams");
                 });
 
             modelBuilder.Entity("ObjectBussiness.ExamRegister", b =>
@@ -125,15 +117,59 @@ namespace ObjectBussiness.Migrations
                     b.Property<int>("ExamRegisterID")
                         .HasColumnType("int");
 
-                    b.Property<int>("CandidateID")
+                    b.Property<int>("Age")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("BirthDay")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CandidateName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Gender")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PlaceOfBirth")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ResidentialAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ExamRegisterID");
 
-                    b.HasIndex("CandidateID")
-                        .IsUnique();
-
                     b.ToTable("ExamRegister");
+                });
+
+            modelBuilder.Entity("ObjectBussiness.History", b =>
+                {
+                    b.Property<int>("HistoryID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("HistoryID");
+
+                    b.ToTable("Histories");
                 });
 
             modelBuilder.Entity("ObjectBussiness.News", b =>
@@ -171,11 +207,34 @@ namespace ObjectBussiness.Migrations
                     b.Property<int>("QuestionID")
                         .HasColumnType("int");
 
+                    b.Property<string>("AnswerA")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AnswerB")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AnswerC")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AnswerD")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("CorrectAnswer")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("DateMake")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ExamID")
+                        .HasColumnType("int");
+
                     b.Property<string>("Note")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Point")
@@ -185,30 +244,36 @@ namespace ObjectBussiness.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TestID")
-                        .HasColumnType("int");
-
                     b.HasKey("QuestionID");
 
-                    b.HasIndex("TestID");
+                    b.HasIndex("ExamID");
 
                     b.ToTable("Questions");
                 });
 
-            modelBuilder.Entity("ObjectBussiness.ResultOfCandidate", b =>
+            modelBuilder.Entity("ObjectBussiness.ResultCandidate", b =>
                 {
-                    b.Property<int>("ResultOfCandidateID")
+                    b.Property<int>("ResultCandidateID")
                         .HasColumnType("int");
 
-                    b.Property<int>("TestID")
+                    b.Property<int>("ElectID")
                         .HasColumnType("int");
 
-                    b.HasKey("ResultOfCandidateID");
+                    b.Property<int>("ExamID")
+                        .HasColumnType("int");
 
-                    b.HasIndex("TestID")
-                        .IsUnique();
+                    b.Property<int?>("HistoryID")
+                        .HasColumnType("int");
 
-                    b.ToTable("ResultOfCandidates");
+                    b.HasKey("ResultCandidateID");
+
+                    b.HasIndex("ElectID");
+
+                    b.HasIndex("ExamID");
+
+                    b.HasIndex("HistoryID");
+
+                    b.ToTable("ResultCandidates");
                 });
 
             modelBuilder.Entity("ObjectBussiness.Role", b =>
@@ -234,11 +299,6 @@ namespace ObjectBussiness.Migrations
                         {
                             RoleID = 2,
                             RoleName = "Candidate"
-                        },
-                        new
-                        {
-                            RoleID = 3,
-                            RoleName = "Employee"
                         });
                 });
 
@@ -247,58 +307,36 @@ namespace ObjectBussiness.Migrations
                     b.Property<int>("RoundID")
                         .HasColumnType("int");
 
-                    b.Property<int>("RoundNumber")
+                    b.Property<int>("ExamID")
                         .HasColumnType("int");
 
-                    b.Property<int>("TestID")
+                    b.Property<int>("RoundNumber")
                         .HasColumnType("int");
 
                     b.HasKey("RoundID");
 
-                    b.HasIndex("TestID");
+                    b.HasIndex("ExamID");
 
                     b.ToTable("Rounds");
                 });
 
-            modelBuilder.Entity("ObjectBussiness.Test", b =>
-                {
-                    b.Property<int>("TestID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("AccountID")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DateCreateTest")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("QuestionID")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("TestDay")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("TestID");
-
-                    b.ToTable("Testes");
-                });
-
             modelBuilder.Entity("ObjectBussiness.Account", b =>
                 {
+                    b.HasOne("ObjectBussiness.Exam", "Exam")
+                        .WithMany("Account")
+                        .HasForeignKey("ExamID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ObjectBussiness.ExamRegister", "ExamRegister")
                         .WithOne("Account")
                         .HasForeignKey("ObjectBussiness.Account", "ExamRegisterID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ObjectBussiness.Test", "Test")
-                        .WithOne("Account")
-                        .HasForeignKey("ObjectBussiness.Account", "TestID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Exam");
 
                     b.Navigation("ExamRegister");
-
-                    b.Navigation("Test");
                 });
 
             modelBuilder.Entity("ObjectBussiness.Decentralization", b =>
@@ -320,28 +358,6 @@ namespace ObjectBussiness.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("ObjectBussiness.Elect", b =>
-                {
-                    b.HasOne("ObjectBussiness.ResultOfCandidate", "ResultOfCandidate")
-                        .WithOne("Elect")
-                        .HasForeignKey("ObjectBussiness.Elect", "ResultOfCandidateID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ResultOfCandidate");
-                });
-
-            modelBuilder.Entity("ObjectBussiness.ExamRegister", b =>
-                {
-                    b.HasOne("ObjectBussiness.Candidate", "Candidate")
-                        .WithOne("ExamRegister")
-                        .HasForeignKey("ObjectBussiness.ExamRegister", "CandidateID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Candidate");
-                });
-
             modelBuilder.Entity("ObjectBussiness.News", b =>
                 {
                     b.HasOne("ObjectBussiness.Account", "Account")
@@ -355,35 +371,47 @@ namespace ObjectBussiness.Migrations
 
             modelBuilder.Entity("ObjectBussiness.Question", b =>
                 {
-                    b.HasOne("ObjectBussiness.Test", "Test")
+                    b.HasOne("ObjectBussiness.Exam", "Exam")
                         .WithMany("Question")
-                        .HasForeignKey("TestID")
+                        .HasForeignKey("ExamID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Test");
+                    b.Navigation("Exam");
                 });
 
-            modelBuilder.Entity("ObjectBussiness.ResultOfCandidate", b =>
+            modelBuilder.Entity("ObjectBussiness.ResultCandidate", b =>
                 {
-                    b.HasOne("ObjectBussiness.Test", "Test")
-                        .WithOne("ResultOfCandidate")
-                        .HasForeignKey("ObjectBussiness.ResultOfCandidate", "TestID")
+                    b.HasOne("ObjectBussiness.Elect", "Elect")
+                        .WithMany("ResultCandidate")
+                        .HasForeignKey("ElectID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Test");
+                    b.HasOne("ObjectBussiness.Exam", "Exam")
+                        .WithMany("ResultCandidate")
+                        .HasForeignKey("ExamID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ObjectBussiness.History", null)
+                        .WithMany("ResultCandidates")
+                        .HasForeignKey("HistoryID");
+
+                    b.Navigation("Elect");
+
+                    b.Navigation("Exam");
                 });
 
             modelBuilder.Entity("ObjectBussiness.Round", b =>
                 {
-                    b.HasOne("ObjectBussiness.Test", "Tests")
+                    b.HasOne("ObjectBussiness.Exam", "Exam")
                         .WithMany("Round")
-                        .HasForeignKey("TestID")
+                        .HasForeignKey("ExamID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Tests");
+                    b.Navigation("Exam");
                 });
 
             modelBuilder.Entity("ObjectBussiness.Account", b =>
@@ -393,9 +421,20 @@ namespace ObjectBussiness.Migrations
                     b.Navigation("News");
                 });
 
-            modelBuilder.Entity("ObjectBussiness.Candidate", b =>
+            modelBuilder.Entity("ObjectBussiness.Elect", b =>
                 {
-                    b.Navigation("ExamRegister");
+                    b.Navigation("ResultCandidate");
+                });
+
+            modelBuilder.Entity("ObjectBussiness.Exam", b =>
+                {
+                    b.Navigation("Account");
+
+                    b.Navigation("Question");
+
+                    b.Navigation("ResultCandidate");
+
+                    b.Navigation("Round");
                 });
 
             modelBuilder.Entity("ObjectBussiness.ExamRegister", b =>
@@ -403,25 +442,14 @@ namespace ObjectBussiness.Migrations
                     b.Navigation("Account");
                 });
 
-            modelBuilder.Entity("ObjectBussiness.ResultOfCandidate", b =>
+            modelBuilder.Entity("ObjectBussiness.History", b =>
                 {
-                    b.Navigation("Elect");
+                    b.Navigation("ResultCandidates");
                 });
 
             modelBuilder.Entity("ObjectBussiness.Role", b =>
                 {
                     b.Navigation("Decentralizations");
-                });
-
-            modelBuilder.Entity("ObjectBussiness.Test", b =>
-                {
-                    b.Navigation("Account");
-
-                    b.Navigation("Question");
-
-                    b.Navigation("ResultOfCandidate");
-
-                    b.Navigation("Round");
                 });
 #pragma warning restore 612, 618
         }

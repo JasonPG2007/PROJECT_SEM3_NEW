@@ -4,21 +4,22 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 
 namespace ObjectBussiness
 {
-    public class ResultOfCandidate
+    public class ResultCandidate
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
-        [Display(Name = "ResultOfCandidate ID")]
-        public int ResultOfCandidateID { get; set; }
-        [ForeignKey("Test")]
-        [Display(Name = "Test ID")]
-        public int TestID { get; set; }
+        [Display(Name = "Result candidate ID")]
+        public int ResultCandidateID { get; set; }
+        [Display(Name = "Exam ID")]
+        public int ExamID { get; set; }
+        [Display(Name = "Elect ID")]
+        public int ElectID { get; set; }
         [JsonIgnore]
-        public virtual Test? Test { get; set; }
+        public virtual Exam? Exam { get; set; }
         [JsonIgnore]
         public virtual Elect? Elect { get; set; }
     }

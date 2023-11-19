@@ -14,11 +14,11 @@ namespace ObjectBussiness
         [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Display(Name = "Round ID")]
         public int RoundID { get; set; }
-        [Display(Name = "Test ID")]
-        public int TestID { get; set; }
+        [Display(Name = "Exam ID")]
+        public int ExamID { get; set; }
         [Display(Name = "Round Number")]
         public int RoundNumber { get; set; }
         [JsonIgnore]
-        public virtual Test? Tests { get; set; }
+        public virtual Exam? Exam { get; set; }
     }
 }

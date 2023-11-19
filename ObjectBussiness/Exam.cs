@@ -9,23 +9,19 @@ using System.Threading.Tasks;
 
 namespace ObjectBussiness
 {
-    public class Test
+    public class Exam
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
-        [Display(Name = "Test ID")]
-        public int TestID { get; set; }
-        [Display(Name = "Question ID")]
-        public int QuestionID { get; set; }
-        [Display(Name = "Account ID")]
-        public int AccountID { get; set; }
+        [Display(Name = "Exam ID")]
+        public int ExamID { get; set; }
         public DateTime DateCreateTest { get; set; }
-        public DateTime TestDay { get; set; }
+        public DateTime ExamDay { get; set; }
         [JsonIgnore]
-        public virtual ResultOfCandidate? ResultOfCandidate { get; set; }
+        public virtual ICollection<ResultCandidate>? ResultCandidate { get; set; }
         [JsonIgnore]
         public virtual ICollection<Round>? Round { get; set; }
         [JsonIgnore]
-        public virtual Account? Account { get; set; }
+        public virtual ICollection<Account>? Account { get; set; }
         [JsonIgnore]
         public virtual ICollection<Question>? Question { get; set; }
     }
