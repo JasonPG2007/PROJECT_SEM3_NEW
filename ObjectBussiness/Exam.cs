@@ -15,7 +15,10 @@ namespace ObjectBussiness
         [Display(Name = "Exam ID")]
         public int ExamID { get; set; }
         public DateTime DateCreateTest { get; set; }
-        public DateTime ExamDay { get; set; }
+        public DateTime TimeBegin { get; set; }
+        public DateTime TimeEnd { get; set; }
+        public DateTime? TimeDelay { get; set; }
+        public string Status { get; set; } // Start or End
         [JsonIgnore]
         public virtual ICollection<ResultCandidate>? ResultCandidate { get; set; }
         [JsonIgnore]

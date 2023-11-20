@@ -18,7 +18,7 @@ namespace ObjectBussiness.Migrations
                 columns: table => new
                 {
                     ElectID = table.Column<int>(type: "int", nullable: false),
-                    ResultElect = table.Column<bool>(type: "bit", nullable: false)
+                    Status = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -52,7 +52,10 @@ namespace ObjectBussiness.Migrations
                 {
                     ExamID = table.Column<int>(type: "int", nullable: false),
                     DateCreateTest = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ExamDay = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    TimeBegin = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TimeEnd = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TimeDelay = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -236,7 +239,7 @@ namespace ObjectBussiness.Migrations
 
             migrationBuilder.InsertData(
                 table: "Elects",
-                columns: new[] { "ElectID", "ResultElect" },
+                columns: new[] { "ElectID", "Status" },
                 values: new object[,]
                 {
                     { 1, true },

@@ -33,8 +33,8 @@ namespace ObjectBussiness
 
             //Add data table Elect
             modelBuilder.Entity<Elect>().HasData(
-                new Elect { ElectID = 1, ResultElect = true },
-                new Elect { ElectID = 2, ResultElect = false });
+                new Elect { ElectID = 1, Status = true },
+                new Elect { ElectID = 2, Status = false });
         }
     }
 }

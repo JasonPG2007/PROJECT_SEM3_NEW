@@ -12,7 +12,7 @@ using ObjectBussiness;
 namespace ObjectBussiness.Migrations
 {
     [DbContext(typeof(PetroleumBusinessDBContext))]
-    [Migration("20231119101222_Initial")]
+    [Migration("20231120005516_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -79,7 +79,7 @@ namespace ObjectBussiness.Migrations
                     b.Property<int>("ElectID")
                         .HasColumnType("int");
 
-                    b.Property<bool>("ResultElect")
+                    b.Property<bool>("Status")
                         .HasColumnType("bit");
 
                     b.HasKey("ElectID");
@@ -90,12 +90,12 @@ namespace ObjectBussiness.Migrations
                         new
                         {
                             ElectID = 1,
-                            ResultElect = true
+                            Status = true
                         },
                         new
                         {
                             ElectID = 2,
-                            ResultElect = false
+                            Status = false
                         });
                 });
 
@@ -107,7 +107,17 @@ namespace ObjectBussiness.Migrations
                     b.Property<DateTime>("DateCreateTest")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("ExamDay")
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("TimeBegin")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("TimeDelay")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("TimeEnd")
                         .HasColumnType("datetime2");
 
                     b.HasKey("ExamID");
