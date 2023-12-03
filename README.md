@@ -1,2 +1,2 @@
 # PROJECT_SEM3
-Đồ án kỳ 3 về website tuyển dụng nhân sự cho Công ty Dầu Khí
+Semester 3 project about human resources recruitment website for an Oil and Gas Company
