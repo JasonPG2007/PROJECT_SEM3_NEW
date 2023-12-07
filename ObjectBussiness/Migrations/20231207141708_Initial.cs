@@ -76,6 +76,19 @@ namespace ObjectBussiness.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "NewsCategories",
+                columns: table => new
+                {
+                    CategoryID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CategoryName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NewsCategories", x => x.CategoryID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Roles",
                 columns: table => new
                 {
@@ -222,10 +235,13 @@ namespace ObjectBussiness.Migrations
                 {
                     NewsID = table.Column<int>(type: "int", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Contents = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Picture = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Contents = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ShortContents = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Picture = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateSubmitted = table.Column<DateTime>(type: "datetime2", nullable: false),
                     AccountID = table.Column<int>(type: "int", nullable: false),
-                    DateSubmitted = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    CategoryID = table.Column<int>(type: "int", nullable: false),
+                    NewsCategoryCategoryID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -236,6 +252,11 @@ namespace ObjectBussiness.Migrations
                         principalTable: "Accounts",
                         principalColumn: "AccountID",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_News_NewsCategories_NewsCategoryCategoryID",
+                        column: x => x.NewsCategoryCategoryID,
+                        principalTable: "NewsCategories",
+                        principalColumn: "CategoryID");
                 });
 
             migrationBuilder.InsertData(
@@ -245,6 +266,15 @@ namespace ObjectBussiness.Migrations
                 {
                     { 1, true },
                     { 2, false }
+                });
+
+            migrationBuilder.InsertData(
+                table: "NewsCategories",
+                columns: new[] { "CategoryID", "CategoryName" },
+                values: new object[,]
+                {
+                    { 1, "Gasoline Prices" },
+                    { 2, "Recruitment Jobs" }
                 });
 
             migrationBuilder.InsertData(
@@ -282,6 +312,11 @@ namespace ObjectBussiness.Migrations
                 name: "IX_News_AccountID",
                 table: "News",
                 column: "AccountID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_News_NewsCategoryCategoryID",
+                table: "News",
+                column: "NewsCategoryCategoryID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Questions_ExamID",
@@ -332,6 +367,9 @@ namespace ObjectBussiness.Migrations
 
             migrationBuilder.DropTable(
                 name: "Accounts");
+
+            migrationBuilder.DropTable(
+                name: "NewsCategories");
 
             migrationBuilder.DropTable(
                 name: "Elects");
