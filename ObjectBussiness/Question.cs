@@ -14,7 +14,7 @@ namespace ObjectBussiness
         [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Display(Name = "Question ID")]
         public int QuestionID { get; set; }
-        [Display(Name = "Exam ID")]
+        [Display(Name = "Exam name")]
         public int ExamID { get; set; }
         [Display(Name = "Question name")]
         public string QuestionName { get; set; }
@@ -29,10 +29,12 @@ namespace ObjectBussiness
         [Display(Name = "Correct answer")]
         public string CorrectAnswer { get; set; }
         public double Point { get; set; }
-        public string Note { get; set; }
+        public string? Note { get; set; }
         [Display(Name = "Day created")]
         public DateTime DateMake { get; set; }
         [JsonIgnore]
         public virtual Exam? Exam { get; set; }
+        [NotMapped]
+        public string? SelectedAnswer { get; set; }
     }
 }
