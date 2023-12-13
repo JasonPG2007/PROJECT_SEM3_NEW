@@ -288,9 +288,6 @@ namespace ObjectBussiness.Migrations
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Point")
-                        .HasColumnType("float");
-
                     b.Property<string>("QuestionName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

@@ -15,7 +15,7 @@ namespace ObjectBussiness
         [Display(Name = "Exam ID")]
         public int ExamID { get; set; }
         [Display(Name = "Exam name")]
-        public string ExamName { get; set;}
+        public string ExamName { get; set; }
         [Display(Name = "Date create test")]
         public DateTime DateCreateTest { get; set; }
         [Display(Name = "Time begin")]
@@ -25,6 +25,9 @@ namespace ObjectBussiness
         [Display(Name = "Time delay")]
         public DateTime? TimeDelay { get; set; }
         public string Status { get; set; } // Start or End
+        [NotMapped]
+        [Display(Name = "Round")]
+        public string SelectRound { get; set; }
         [JsonIgnore]
         public virtual ICollection<ResultCandidate>? ResultCandidate { get; set; }
         [JsonIgnore]

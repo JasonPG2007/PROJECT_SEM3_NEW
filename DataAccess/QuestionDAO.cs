@@ -47,7 +47,6 @@ namespace DataAccess
                                CorrectAnswer = a.CorrectAnswer,
                                DateMake = a.DateMake,
                                Note = a.Note,
-                               Point = a.Point,
                            };
             return question;
         }

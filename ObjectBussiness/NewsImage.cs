@@ -15,7 +15,7 @@ namespace ObjectBussiness
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int NewsID { get; set; }
         [Display(Name = "Title")]
-        public string? Title { get; set; }
+        public string Title { get; set; }
         [AllowHtml]
         public string? Contents { get; set; }
         [Display(Name = "Short contents")]

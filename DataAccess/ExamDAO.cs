@@ -9,6 +9,11 @@ namespace DataAccess
 {
     public class ExamDAO
     {
+        private readonly PetroleumBusinessDBContext db;
+        public ExamDAO()
+        {
+            db = new PetroleumBusinessDBContext();
+        }
         private static ExamDAO instance = null;
         private static readonly object Lock = new object();
         public static ExamDAO Instance
@@ -27,9 +32,21 @@ namespace DataAccess
         }
         public IEnumerable<Exam> GetExams()
         {
-            using var context = new PetroleumBusinessDBContext();
-            List<Exam> listExams = context.Exams.ToList();
-            return listExams;
+            var list = from a in db.Exams
+                       join b in db.Rounds
+                       on a.ExamID equals b.ExamID
+                       select new Exam
+                       {
+                           ExamID = a.ExamID,
+                           DateCreateTest = a.DateCreateTest,
+                           ExamName = a.ExamName,
+                           Status = a.Status,
+                           TimeBegin = a.TimeBegin,
+                           TimeDelay = a.TimeDelay,
+                           TimeEnd = a.TimeEnd,
+                           SelectRound = b.RoundNumber.ToString(),
+                       };
+            return list;
         }
         public Exam GetRoom(int room)
         {
