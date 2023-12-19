@@ -99,8 +99,10 @@
                                         <td>
                                             <div class="d-flex px-2 py-1">
                                                 <div class="d-flex flex-column justify-content-center">
-                                                    <a style="color:black;background-color:yellow" class="btn" href="~/Admin/ExamAdmin/Edit/@item.ExamID"></a>
-                                                    <a style="color:black;background-color:yellow" class="btn" href="~/Admin/ExamAdmin/Delete/@item.ExamID"></a>
+                                                    <div>
+                                                        <a class="btn btn-success" href="~/Admin/ExamAdmin/Edit/@item.ExamID">Update</a>
+                                                        <a class="btn btn-danger" class="btn" href="~/Admin/ExamAdmin/Delete/@item.ExamID">Delete</a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </td>
