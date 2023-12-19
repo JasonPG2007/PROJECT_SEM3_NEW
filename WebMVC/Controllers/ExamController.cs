@@ -75,8 +75,7 @@ namespace WebMVC.Controllers
                     exam.DateCreateTest = DateTime.Now;
 
                     round.RoundID = random.Next();
-                    round.ExamID = exam.ExamID;
-                    round.RoundNumber = Convert.ToInt32(exam.SelectRound);
+                    //round.ExamID = exam.ExamID;
 
                     var data = JsonSerializer.Serialize(exam);
                     var typeData = new StringContent(data, System.Text.Encoding.UTF8, "application/json");

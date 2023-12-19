@@ -31,10 +31,10 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(model => model.ExamID, new { @class = "control-label" })
+                    @Html.LabelFor(model => model.RoundID, new { @class = "control-label" })
                     <div class="col-md-10">
-                        @Html.DropDownListFor(model => model.ExamID, ViewBag.Items as IEnumerable<SelectListItem>, "Choose an item", new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.ExamID, "", new { @class = "text-danger" })
+                        @Html.DropDownListFor(model => model.RoundID, ViewBag.Items as IEnumerable<SelectListItem>, "Choose an item", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.RoundID, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group">

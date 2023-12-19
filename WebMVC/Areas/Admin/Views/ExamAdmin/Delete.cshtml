@@ -57,10 +57,11 @@
                 @Html.DisplayFor(model => model.Status)
             </dd>
         </dl>
-        @using (Html.BeginForm("Delete", "Exam", FormMethod.Post))
-        {
+        <form action="Delete" method="post">
+            @Html.AntiForgeryToken()
+            @Html.Hidden("id", Model.ExamID)
             <input type="submit" value="Delete" class="btn btn-danger" />
             <a href="@Url.Action("")"> Back to List</a>
-        }
+        </form>
     </div>
 </div>

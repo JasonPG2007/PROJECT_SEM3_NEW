@@ -30,12 +30,12 @@ namespace DataAccess
         {
             db = new PetroleumBusinessDBContext();
         }
-        public IEnumerable<Question> GetQuestionsByExam(int id)
+        public IEnumerable<Question> GetQuestionsByRound(int id)
         {
             var question = from a in db.Questions
-                           join b in db.Exams
-                           on a.ExamID equals b.ExamID
-                           where a.ExamID == id
+                           join b in db.Rounds
+                           on a.RoundID equals b.RoundID
+                           where a.RoundID == id
                            select new Question
                            {
                                QuestionID = a.QuestionID,

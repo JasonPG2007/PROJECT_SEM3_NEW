@@ -14,5 +14,6 @@ namespace Repository
         public void InsertRound(Round round);
         public void UpdateRound(Round round);
         public void DeleteRound(int id);
+        IEnumerable<object> GetRoundId();
     }
 }

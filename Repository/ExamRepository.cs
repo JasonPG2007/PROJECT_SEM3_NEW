@@ -21,5 +21,7 @@ namespace Repository
         public void InsertExam(Exam exam) => ExamDAO.Instance.InsertExam(exam);
 
         public void UpdateExam(Exam exam) => ExamDAO.Instance.UpdateExam(exam);
+        public IEnumerable<Exam> GetAllExamEnd() => ExamDAO.Instance.GetAllExamEnd();
+        public void DeleteExamEnd() => ExamDAO.Instance.DeleteExamEnd();
     }
 }

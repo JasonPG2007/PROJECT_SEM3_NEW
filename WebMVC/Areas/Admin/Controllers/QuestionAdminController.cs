@@ -71,19 +71,22 @@ namespace WebMVC.Areas.Admin.Controllers
         // GET: QuestionController/Create
         public async Task<ActionResult> Create()
         {
-            HttpResponseMessage responseMessage = await httpClient.GetAsync("https://localhost:7274/api/QuestionAPI/GetExamID");
+            HttpResponseMessage responseMessage = await httpClient.GetAsync("https://localhost:7274/api/QuestionAPI/GetRoundID");
             var data = await responseMessage.Content.ReadAsStringAsync();
             var options = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             };
-            List<Exam> listExams = JsonSerializer.Deserialize<List<Exam>>(data, options);
+            List<Round> listRound = JsonSerializer.Deserialize<List<Round>>(data, options);
             List<SelectListItem> selectList = new List<SelectListItem>();
-            foreach (var item in listExams)
+            foreach (var item in listRound)
             {
-                selectList.Add(new SelectListItem { Value = item.ExamID.ToString(), Text = item.ExamName });
+                selectList.Add(new SelectListItem { Value = item.RoundID.ToString(), Text = item.RoundNumber.ToString() });
             }
-            ViewBag.Items = selectList;
+            if (selectList.Count > 0)
+            {
+                ViewBag.Items = selectList;
+            }
             return View();
         }
 
@@ -104,7 +107,7 @@ namespace WebMVC.Areas.Admin.Controllers
                     HttpResponseMessage responseMessage = await httpClient.PostAsync(ApiUrl, typeData);
                     if (responseMessage.IsSuccessStatusCode)
                     {
-                        return RedirectToAction(nameof(Index));
+                        return Redirect("~/Admin/QuestionAdmin");
                     }
                     throw new ArgumentException("Creat failed.");
                 }

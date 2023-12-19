@@ -22,6 +22,19 @@ namespace WebAPI.Controllers
             return examRepository.GetExams();
         }
 
+        [Route("GetAllExamEnd")]
+        [HttpGet]
+        public IEnumerable<Exam> GetAllExamEnd()
+        {
+            return examRepository.GetAllExamEnd();
+        }
+        [Route("DeleteExamEnd")]
+        [HttpDelete]
+        public void DeleteExamEnd()
+        {
+            examRepository.DeleteExamEnd();
+        }
+
         // GET api/<ExamAPIController>/5
         [HttpGet("{id}")]
         public ActionResult<Exam> Get(int id)

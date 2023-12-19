@@ -12,7 +12,7 @@ using ObjectBussiness;
 namespace ObjectBussiness.Migrations
 {
     [DbContext(typeof(PetroleumBusinessDBContext))]
-    [Migration("20231210075656_Initial")]
+    [Migration("20231214072711_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -285,9 +285,6 @@ namespace ObjectBussiness.Migrations
                     b.Property<DateTime>("DateMake")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("ExamID")
-                        .HasColumnType("int");
-
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
@@ -295,9 +292,12 @@ namespace ObjectBussiness.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("RoundID")
+                        .HasColumnType("int");
+
                     b.HasKey("QuestionID");
 
-                    b.HasIndex("ExamID");
+                    b.HasIndex("RoundID");
 
                     b.ToTable("Questions");
                 });
@@ -360,6 +360,10 @@ namespace ObjectBussiness.Migrations
 
                     b.Property<int>("ExamID")
                         .HasColumnType("int");
+
+                    b.Property<string>("RoundName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("RoundNumber")
                         .HasColumnType("int");
@@ -428,13 +432,13 @@ namespace ObjectBussiness.Migrations
 
             modelBuilder.Entity("ObjectBussiness.Question", b =>
                 {
-                    b.HasOne("ObjectBussiness.Exam", "Exam")
-                        .WithMany("Question")
-                        .HasForeignKey("ExamID")
+                    b.HasOne("ObjectBussiness.Round", "Round")
+                        .WithMany("Questions")
+                        .HasForeignKey("RoundID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Exam");
+                    b.Navigation("Round");
                 });
 
             modelBuilder.Entity("ObjectBussiness.ResultCandidate", b =>
@@ -487,8 +491,6 @@ namespace ObjectBussiness.Migrations
                 {
                     b.Navigation("Account");
 
-                    b.Navigation("Question");
-
                     b.Navigation("ResultCandidate");
 
                     b.Navigation("Round");
@@ -512,6 +514,11 @@ namespace ObjectBussiness.Migrations
             modelBuilder.Entity("ObjectBussiness.Role", b =>
                 {
                     b.Navigation("Decentralizations");
+                });
+
+            modelBuilder.Entity("ObjectBussiness.Round", b =>
+                {
+                    b.Navigation("Questions");
                 });
 #pragma warning restore 612, 618
         }

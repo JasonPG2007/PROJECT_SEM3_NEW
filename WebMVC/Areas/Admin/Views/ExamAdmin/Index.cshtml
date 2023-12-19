@@ -6,7 +6,7 @@
 }
 <div class="container-fluid py-4">
     <p>
-        <a style="color:black;background-color:yellow" class="btn" href="@Url.Action("Create","Exam")">Create New</a>
+        <a style="color:black;background-color:yellow" class="btn" href="~/Admin/ExamAdmin/Create">Create New</a>
     </p>
     <div class="row">
         <div class="col-12">
@@ -39,9 +39,6 @@
                                     </th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         @Html.DisplayNameFor(model => model.Status)
-                                    </th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        @Html.DisplayNameFor(model => model.SelectRound)
                                     </th>
                                     <th class="text-secondary opacity-7">Control</th>
                                 </tr>
@@ -102,15 +99,8 @@
                                         <td>
                                             <div class="d-flex px-2 py-1">
                                                 <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">@Html.DisplayFor(modelItem => item.SelectRound)</h6>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex px-2 py-1">
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    @Html.ActionLink("Edit", "Edit", new { id = item.ExamID })
-                                                    @Html.ActionLink("Delete", "Delete", new { id = item.ExamID })
+                                                    <a style="color:black;background-color:yellow" class="btn" href="~/Admin/ExamAdmin/Edit/@item.ExamID"></a>
+                                                    <a style="color:black;background-color:yellow" class="btn" href="~/Admin/ExamAdmin/Delete/@item.ExamID"></a>
                                                 </div>
                                             </div>
                                         </td>

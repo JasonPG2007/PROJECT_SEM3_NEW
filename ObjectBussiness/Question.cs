@@ -14,8 +14,8 @@ namespace ObjectBussiness
         [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Display(Name = "Question ID")]
         public int QuestionID { get; set; }
-        [Display(Name = "Exam name")]
-        public int ExamID { get; set; }
+        [Display(Name = "Round ID")]
+        public int RoundID { get; set; }
         [Display(Name = "Question name")]
         public string QuestionName { get; set; }
         [Display(Name = "Answer A")]
@@ -32,7 +32,7 @@ namespace ObjectBussiness
         [Display(Name = "Day created")]
         public DateTime DateMake { get; set; }
         [JsonIgnore]
-        public virtual Exam? Exam { get; set; }
+        public virtual Round? Round { get; set; }
         [NotMapped]
         public string? SelectedAnswer { get; set; }
     }

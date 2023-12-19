@@ -127,38 +127,13 @@ namespace ObjectBussiness.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Questions",
-                columns: table => new
-                {
-                    QuestionID = table.Column<int>(type: "int", nullable: false),
-                    ExamID = table.Column<int>(type: "int", nullable: false),
-                    QuestionName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AnswerA = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AnswerB = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AnswerC = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AnswerD = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CorrectAnswer = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DateMake = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Questions", x => x.QuestionID);
-                    table.ForeignKey(
-                        name: "FK_Questions_Exams_ExamID",
-                        column: x => x.ExamID,
-                        principalTable: "Exams",
-                        principalColumn: "ExamID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Rounds",
                 columns: table => new
                 {
                     RoundID = table.Column<int>(type: "int", nullable: false),
                     ExamID = table.Column<int>(type: "int", nullable: false),
-                    RoundNumber = table.Column<int>(type: "int", nullable: false)
+                    RoundNumber = table.Column<int>(type: "int", nullable: false),
+                    RoundName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -258,6 +233,32 @@ namespace ObjectBussiness.Migrations
                         principalColumn: "CategoryID");
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Questions",
+                columns: table => new
+                {
+                    QuestionID = table.Column<int>(type: "int", nullable: false),
+                    RoundID = table.Column<int>(type: "int", nullable: false),
+                    QuestionName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AnswerA = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AnswerB = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AnswerC = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AnswerD = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CorrectAnswer = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateMake = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Questions", x => x.QuestionID);
+                    table.ForeignKey(
+                        name: "FK_Questions_Rounds_RoundID",
+                        column: x => x.RoundID,
+                        principalTable: "Rounds",
+                        principalColumn: "RoundID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "Elects",
                 columns: new[] { "ElectID", "Status" },
@@ -318,9 +319,9 @@ namespace ObjectBussiness.Migrations
                 column: "NewsCategoryCategoryID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Questions_ExamID",
+                name: "IX_Questions_RoundID",
                 table: "Questions",
-                column: "ExamID");
+                column: "RoundID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ResultCandidates_ElectID",
@@ -359,9 +360,6 @@ namespace ObjectBussiness.Migrations
                 name: "ResultCandidates");
 
             migrationBuilder.DropTable(
-                name: "Rounds");
-
-            migrationBuilder.DropTable(
                 name: "Roles");
 
             migrationBuilder.DropTable(
@@ -369,6 +367,9 @@ namespace ObjectBussiness.Migrations
 
             migrationBuilder.DropTable(
                 name: "NewsCategories");
+
+            migrationBuilder.DropTable(
+                name: "Rounds");
 
             migrationBuilder.DropTable(
                 name: "Elects");

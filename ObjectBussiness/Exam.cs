@@ -24,17 +24,12 @@ namespace ObjectBussiness
         public DateTime TimeEnd { get; set; }
         [Display(Name = "Time delay")]
         public DateTime? TimeDelay { get; set; }
-        public string Status { get; set; } // Start or End
-        [NotMapped]
-        [Display(Name = "Round")]
-        public string SelectRound { get; set; }
+        public string? Status { get; set; } // Start or End
         [JsonIgnore]
         public virtual ICollection<ResultCandidate>? ResultCandidate { get; set; }
         [JsonIgnore]
-        public virtual ICollection<Round>? Round { get; set; }
-        [JsonIgnore]
         public virtual ICollection<Account>? Account { get; set; }
         [JsonIgnore]
-        public virtual ICollection<Question>? Question { get; set; }
+        public virtual ICollection<Round>? Round { get; set; }
     }
 }

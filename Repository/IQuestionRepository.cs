@@ -14,6 +14,6 @@ namespace Repository
         public void InsertQuestion(Question question);
         public void UpdateQuestion(Question question);
         public void DeleteQuestion(int id);
-        public IEnumerable<Question> GetQuestionsByExam(int id);
+        public IEnumerable<Question> GetQuestionsByRound(int id);
     }
 }

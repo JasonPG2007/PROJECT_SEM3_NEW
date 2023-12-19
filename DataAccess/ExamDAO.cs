@@ -32,20 +32,8 @@ namespace DataAccess
         }
         public IEnumerable<Exam> GetExams()
         {
-            var list = from a in db.Exams
-                       join b in db.Rounds
-                       on a.ExamID equals b.ExamID
-                       select new Exam
-                       {
-                           ExamID = a.ExamID,
-                           DateCreateTest = a.DateCreateTest,
-                           ExamName = a.ExamName,
-                           Status = a.Status,
-                           TimeBegin = a.TimeBegin,
-                           TimeDelay = a.TimeDelay,
-                           TimeEnd = a.TimeEnd,
-                           SelectRound = b.RoundNumber.ToString(),
-                       };
+            using var context = new PetroleumBusinessDBContext();
+            var list = context.Exams.ToList();
             return list;
         }
         public Exam GetRoom(int room)
@@ -55,6 +43,29 @@ namespace DataAccess
             var checkRoom = GetExamById(room);
             return checkRoom;
 
+        }
+        public IEnumerable<Exam> GetAllExamEnd()
+        {
+            using var context = new PetroleumBusinessDBContext();
+            var ListItem = context.Exams.Where(l => l.Status == "End").ToList();
+            return ListItem;
+        }
+        public void DeleteExamEnd()
+        {
+            using var context = new PetroleumBusinessDBContext();
+            var checkExam = GetAllExamEnd();
+            if (checkExam != null)
+            {
+                try
+                {
+                    context.Exams.RemoveRange(checkExam);
+                    context.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
         }
         public Exam GetExamById(int id)
         {

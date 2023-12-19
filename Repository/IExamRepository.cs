@@ -15,5 +15,7 @@ namespace Repository
         public void UpdateExam(Exam exam);
         public void DeleteExam(int id);
         public Exam GetRoom(int room);
+        public IEnumerable<Exam> GetAllExamEnd();
+        public void DeleteExamEnd();
     }
 }

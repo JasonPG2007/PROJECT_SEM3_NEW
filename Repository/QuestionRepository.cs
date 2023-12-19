@@ -16,7 +16,7 @@ namespace Repository
 
         public IEnumerable<Question> GetQuestions() => QuestionDAO.Instance.GetQuestions();
 
-        public IEnumerable<Question> GetQuestionsByExam(int id) => QuestionDAO.Instance.GetQuestionsByExam(id);
+        public IEnumerable<Question> GetQuestionsByRound(int id) => QuestionDAO.Instance.GetQuestionsByRound(id);
 
         public void InsertQuestion(Question question) => QuestionDAO.Instance.InsertQuestion(question);
 

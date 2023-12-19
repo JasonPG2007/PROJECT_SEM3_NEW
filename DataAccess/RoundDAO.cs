@@ -25,11 +25,21 @@ namespace DataAccess
                 }
             }
         }
+        private readonly PetroleumBusinessDBContext db;
+        public RoundDAO()
+        {
+            db = new PetroleumBusinessDBContext();
+        }
         public IEnumerable<Round> GetRounds()
         {
             using var context = new PetroleumBusinessDBContext();
             var list = context.Rounds.ToList();
             return list;
+        }
+        public IEnumerable<object> GetRoundId()
+        {
+            var rs = db.Rounds.Select(e => new { e.RoundID, e.RoundNumber }).ToList();
+            return rs;
         }
         public Round GetRoundById(int id)
         {

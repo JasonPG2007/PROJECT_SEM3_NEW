@@ -10,6 +10,9 @@
         new SelectListItem{Text="C",Value="C"},
         new SelectListItem{Text="D",Value="D"}
     };
+    List<SelectListItem> optionsNone = new List<SelectListItem>
+    {
+    };
 }
 <style>
     label {
@@ -19,15 +22,21 @@
 <div class="container-fluid py-4">
     <div class="row">
         <div class="col-md-4">
-            @using (Html.BeginForm("Create", "Question", FormMethod.Post))
-            {
+            <form action="Create" method="post">
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group">
-                    @Html.LabelFor(model => model.ExamID, new { @class = "control-label" })
+                    @Html.LabelFor(model => model.RoundID, new { @class = "control-label" })
                     <div class="col-md-10">
-                        @Html.DropDownListFor(model => model.ExamID, ViewBag.Items as IEnumerable<SelectListItem>, "Choose an item", new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.ExamID, "", new { @class = "text-danger" })
+                        @if (ViewBag.Items == null)
+                        {
+                            @Html.DropDownListFor(model => model.RoundID, optionsNone, "No created rounds have been created yet", new { @class = "form-control" })
+                        }
+                        else
+                        {
+                            @Html.DropDownListFor(model => model.RoundID, ViewBag.Items as IEnumerable<SelectListItem>, "Choose an item", new { @class = "form-control" })
+                        }
+                        @Html.ValidationMessageFor(model => model.RoundID, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group">
@@ -82,11 +91,11 @@
                 <div class="form-group">
                     <input type="submit" value="Create" style="color:black;background-color:yellow" class="btn" />
                 </div>
-            }
+            </form>
         </div>
     </div>
 
     <div>
-        <a href="@Url.Action("")">Back to List</a>
+        <a href="~/Admin/QuestionAdmin">Back to List</a>
     </div>
 </div>

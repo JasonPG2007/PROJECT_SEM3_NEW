@@ -13,9 +13,11 @@ namespace WebAPI.Controllers
         private readonly IQuestionRepository questionRepository;
         private readonly Queue<Question> q = new Queue<Question>();
         private readonly IExamRepository examRepository;
-        PetroleumBusinessDBContext db;
+        private readonly PetroleumBusinessDBContext db;
+        private readonly IRoundRepository roundRepository;
         public QuestionAPIController()
         {
+            roundRepository = new RoundRepository();
             db = new PetroleumBusinessDBContext();
             examRepository = new ExamRepository();
             questionRepository = new QuestionRepository();
@@ -41,7 +43,7 @@ namespace WebAPI.Controllers
         [HttpGet("GetQuestionByExam/{id}")]
         public IEnumerable<Question> GetQuestionByExam(int id)
         {
-            var check = questionRepository.GetQuestionsByExam(id);
+            var check = questionRepository.GetQuestionsByRound(id);
             if (check != null)
             {
                 return check;
@@ -70,11 +72,11 @@ namespace WebAPI.Controllers
                 return NotFound();
             }
         }
-        [Route("GetExamID")]
+        [Route("GetRoundID")]
         [HttpGet]
-        public IEnumerable<object> GetExamID()
+        public IEnumerable<object> GetRoundID()
         {
-            var rs = db.Exams.Select(e => new { e.ExamID, e.ExamName }).ToList();
+            var rs = roundRepository.GetRoundId();
             return rs;
         }
         // POST api/<QuestionAPIController>
