@@ -28,7 +28,12 @@ namespace WebAPI.Controllers
         {
             return questionRepository.GetQuestions();
         }
-
+        [Route("Search")]
+        [HttpGet]
+        public IEnumerable<Question> Search(string name, string? sortBy)
+        {
+            return questionRepository.SearchByNameOrSortBy(name, sortBy);
+        }
         // GET api/<QuestionAPIController>/5
         [HttpGet("{id}")]
         public ActionResult<Question> Get(int id)
@@ -41,7 +46,7 @@ namespace WebAPI.Controllers
             return check;
         }
         [HttpGet("GetQuestionByExam/{id}")]
-        public IEnumerable<Question> GetQuestionByExam(int id)
+        public IEnumerable<Question> GetQuestionByRound(int id)
         {
             var check = questionRepository.GetQuestionsByRound(id);
             if (check != null)
@@ -74,7 +79,7 @@ namespace WebAPI.Controllers
         }
         [Route("GetRoundID")]
         [HttpGet]
-        public IEnumerable<object> GetRoundID()
+        public IEnumerable<Round> GetRoundID()
         {
             var rs = roundRepository.GetRoundId();
             return rs;

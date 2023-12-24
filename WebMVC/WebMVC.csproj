@@ -16,6 +16,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\Exam\ExamDashboard.cshtml" />
+    <None Include="Views\Exam\Index.cshtml" />
+    <None Include="Views\Home\Index.cshtml" />
+    <None Include="Views\News\Index.cshtml" />
+    <None Include="Views\Question\StartQuiz.cshtml" />
+    <None Include="Views\Shared\Aside.cshtml" />
+    <None Include="Views\Shared\Error.cshtml" />
+    <None Include="Views\Shared\Footer.cshtml" />
+    <None Include="Views\Shared\Header.cshtml" />
+    <None Include="Views\Shared\Navbar.cshtml" />
+    <None Include="Views\Shared\_Layout.cshtml" />
+    <None Include="Views\Shared\_Layout2.cshtml" />
+    <None Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
     <None Include="wwwroot\Admin\css\.DS_Store" />
     <None Include="wwwroot\Admin\fonts\.DS_Store" />
     <None Include="wwwroot\Admin\fonts\icomoon\.DS_Store" />
@@ -28,22 +41,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Areas\Admin\Views\ExamAdmin\Index.cshtml">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Update="Areas\Admin\Views\NewsAdmin\Index.cshtml">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Update="Areas\Admin\Views\QuestionAdmin\Index.cshtml">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Update="Areas\Admin\Views\QuestionAdmin\StartQuiz.cshtml">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
     <Content Update="wwwroot\Admin\lib\bootstrap\dist\css\bootstrap-grid.css">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
@@ -272,39 +269,6 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Areas\Admin\Views\QuestionAdmin\Create.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Areas\Admin\Views\ExamAdmin\Create.cshtml" />
-    <_ContentIncludedByDefault Remove="Areas\Admin\Views\ExamAdmin\Delete.cshtml" />
-    <_ContentIncludedByDefault Remove="Areas\Admin\Views\ExamAdmin\Edit.cshtml" />
-    <_ContentIncludedByDefault Remove="Areas\Admin\Views\QuestionAdmin\Create.cshtml" />
-    <_ContentIncludedByDefault Remove="Areas\Admin\Views\QuestionAdmin\Delete.cshtml" />
-    <_ContentIncludedByDefault Remove="Areas\Admin\Views\QuestionAdmin\Edit.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Areas\Admin\Views\QuestionAdmin\Delete.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Areas\Admin\Views\QuestionAdmin\Edit.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Areas\Admin\Views\ExamAdmin\Create.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Areas\Admin\Views\ExamAdmin\Delete.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Areas\Admin\Views\ExamAdmin\Edit.cshtml" />
   </ItemGroup>
 
 </Project>
