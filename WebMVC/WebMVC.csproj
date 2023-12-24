@@ -19,7 +19,6 @@
     <None Include="Views\Exam\ExamDashboard.cshtml" />
     <None Include="Views\Exam\Index.cshtml" />
     <None Include="Views\Home\Index.cshtml" />
-    <None Include="Views\News\Index.cshtml" />
     <None Include="Views\Question\StartQuiz.cshtml" />
     <None Include="Views\Shared\Aside.cshtml" />
     <None Include="Views\Shared\Error.cshtml" />

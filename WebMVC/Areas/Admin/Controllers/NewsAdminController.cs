@@ -1,24 +1,29 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ObjectBussiness;
 using System.Net.Http.Headers;
 using System.Text.Json;
+using X.PagedList;
 
 namespace WebMVC.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class NewsAdminController : Controller
     {
         private readonly HttpClient _httpClient = null;
         private string NewsApiUrl = "";
+        PetroleumBusinessDBContext db;
         public NewsAdminController()
         {
+            db = new PetroleumBusinessDBContext();
             _httpClient = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             _httpClient.DefaultRequestHeaders.Accept.Add(contentType);
             NewsApiUrl = "https://localhost:7274/api/NewsControllerApi";
         }
         // GET: NewsController
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page)
         {
             HttpResponseMessage res = await _httpClient.GetAsync(NewsApiUrl);
             string strData = await res.Content.ReadAsStringAsync();
@@ -27,44 +32,56 @@ namespace WebMVC.Areas.Admin.Controllers
                 PropertyNameCaseInsensitive = true,
             };
             List<News> newsList = JsonSerializer.Deserialize<List<News>>(strData, option);
-            return View(newsList);
+
+            int pageNumber = page ?? 1;
+            int pageSize = 5;
+
+            IPagedList<News> pagedNewsList = newsList.ToPagedList(pageNumber, pageSize);
+            return View(pagedNewsList);
         }
+
 
         // GET: NewsController/Details/5
-        public ActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            return View();
+            // Gửi yêu cầu GET đến API để lấy thông tin chi tiết theo ID
+            HttpResponseMessage responseMessage = await _httpClient.GetAsync($"{NewsApiUrl}/{id}");
+
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                var data = await responseMessage.Content.ReadAsStringAsync();
+                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                var news = JsonSerializer.Deserialize<News>(data, options);
+
+                // Hiển thị chi tiết của news trên view
+                return View(news);
+            }
+            else
+            {
+                // Hiển thị thông báo lỗi nếu không lấy được dữ liệu
+                return View("Error", new { message = $"Error fetching news details: {responseMessage.StatusCode}" });
+            }
         }
+
 
         // GET: NewsController/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
+            HttpResponseMessage responseMessage = await _httpClient.GetAsync("https://localhost:7274/api/NewsControllerApi/GetNewsCategory");
+            var data = await responseMessage.Content.ReadAsStringAsync();
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            List<NewsCategory> listCategory = JsonSerializer.Deserialize<List<NewsCategory>>(data, options);
+            List<SelectListItem> selectList = new List<SelectListItem>();
+            foreach (var item in listCategory)
+            {
+                selectList.Add(new SelectListItem { Value = item.CategoryID.ToString(), Text = item.CategoryName });
+            }
+            ViewBag.Items = selectList;
             return View();
         }
-
-        /*// POST: NewsController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(News n)
-        {
-            if (ModelState.IsValid)
-            {
-                string strData = JsonSerializer.Serialize(n);
-                var contentData = new StringContent(strData, System.Text.Encoding.UTF8, "application/json");
-                HttpResponseMessage res = await _httpClient.PostAsync(NewsApiUrl, contentData);
-                if (res.IsSuccessStatusCode)
-                {
-                    TempData["Message"] = "Post inserted successfully";
-                    return RedirectToAction(nameof(Index));
-                }
-                else
-                {
-                    TempData["Message"] = "Error while call Web API";
-                }
-
-            }
-            return View(n);
-        }*/
 
         // POST: NewsController/Create API//////////////////////////////////////////////////////
         [HttpPost]
@@ -87,12 +104,16 @@ namespace WebMVC.Areas.Admin.Controllers
 
                 if (imageFile != null && imageFile.Length > 0)
                 {
-                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", imageFile.FileName);
+                    // Lấy tên tệp từ đường dẫn đầy đủ
+                    var fileName = Path.GetFileName(imageFile.FileName);
+
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", fileName);
                     using (var stream = System.IO.File.Create(path))
                     {
                         await imageFile.CopyToAsync(stream);
                     }
-                    news.Picture = "/images/" + imageFile.FileName;
+                    // Gán chỉ tên tệp (không có đường dẫn đầy đủ)
+                    news.Picture = fileName;
                 }
 
                 // Send data to API
@@ -102,12 +123,6 @@ namespace WebMVC.Areas.Admin.Controllers
 
                 if (res.IsSuccessStatusCode)
                 {
-                    // Clear the uploaded file if successful
-                    /* if (imageFile != null && imageFile.Length > 0)
-                     {
-                         System.IO.File.Delete(path);
-                     }*/
-
                     TempData["Message"] = "Post inserted successfully";
                     return RedirectToAction(nameof(Index));
                 }
@@ -134,9 +149,22 @@ namespace WebMVC.Areas.Admin.Controllers
                     PropertyNameCaseInsensitive = true
                 };
                 News n = JsonSerializer.Deserialize<News>(strData, options);
+                HttpResponseMessage responseMessageList = await _httpClient.GetAsync("https://localhost:7274/api/NewsControllerApi/GetNewsCategory");
+                var dataList = await responseMessageList.Content.ReadAsStringAsync();
+                var optionsList = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+                List<NewsCategory> newsCate = JsonSerializer.Deserialize<List<NewsCategory>>(dataList, optionsList);
+                List<SelectListItem> selectListItems = new List<SelectListItem>();
+                foreach (var item in newsCate)
+                {
+                    selectListItems.Add(new SelectListItem { Value = item.CategoryID.ToString(), Text = item.CategoryName });
+                }
+                ViewBag.Items = selectListItems;
                 return View(n);
             }
-            return View();
+            return NotFound();
         }
 
         // POST: NewsController/Edit/5
@@ -151,7 +179,7 @@ namespace WebMVC.Areas.Admin.Controllers
                 HttpResponseMessage res = await _httpClient.PutAsync($"{NewsApiUrl}/{id}", contentData);
                 if (res.IsSuccessStatusCode)
                 {
-                    TempData["Message"] = "Product updated successfully";
+                    TempData["Message"] = "News updated successfully";
                     return RedirectToAction(nameof(Index));
                 }
                 else
@@ -197,6 +225,5 @@ namespace WebMVC.Areas.Admin.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
-        // Upload Image
     }
 }

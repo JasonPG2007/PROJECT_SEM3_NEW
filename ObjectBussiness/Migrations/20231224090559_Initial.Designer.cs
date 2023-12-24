@@ -12,7 +12,7 @@ using ObjectBussiness;
 namespace ObjectBussiness.Migrations
 {
     [DbContext(typeof(PetroleumBusinessDBContext))]
-    [Migration("20231214072711_Initial")]
+    [Migration("20231224090559_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -112,7 +112,6 @@ namespace ObjectBussiness.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("TimeBegin")
@@ -216,7 +215,6 @@ namespace ObjectBussiness.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("NewsID");
@@ -231,10 +229,7 @@ namespace ObjectBussiness.Migrations
             modelBuilder.Entity("ObjectBussiness.NewsCategory", b =>
                 {
                     b.Property<int>("CategoryID")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryID"));
 
                     b.Property<string>("CategoryName")
                         .IsRequired()

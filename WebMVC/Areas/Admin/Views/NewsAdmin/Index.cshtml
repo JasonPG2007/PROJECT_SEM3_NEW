@@ -1,4 +1,5 @@
-﻿@using X.PagedList.Mvc.Core;
+﻿@using ObjectBussiness;
+@using X.PagedList.Mvc.Core;
 @using X.PagedList;
 @model IEnumerable<ObjectBussiness.News>
 
@@ -10,17 +11,17 @@
 <div class="container-fluid py-4">
 
     <p>
-        <a style="color:black;background-color:yellow" class="btn" href="~/Admin/NewsAdmin/Create">Create New</a>
+        <a style="color:black;background-color:yellow" class="btn" href="@Url.Action("Create","News")">Create New</a>
     </p>
     <br />
 
-    @using (Html.BeginForm("Index", "News", FormMethod.Post))
+    @using (Html.BeginForm("Index", "News", FormMethod.Get))
     {
         <div class="row">
             <div class="col-12">
                 <div class="card mb-4">
                     <div class="card-header pb-0">
-                        <h6>Authors table</h6>
+                        <h6>News table</h6>
                     </div>
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
@@ -32,24 +33,22 @@
                                         </th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             @Html.DisplayNameFor(model => model.Title)
-                                        </th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            @Html.DisplayNameFor(model => model.Contents)
-                                        </th>
+                                        </th>                                     
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             @Html.DisplayNameFor(model => model.ShortContents)
                                         </th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             @Html.DisplayNameFor(model => model.Picture)
+                                            
                                         </th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             @Html.DisplayNameFor(model => model.DateSubmitted)
                                         </th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            @Html.DisplayNameFor(model => model.CategoryID)
+                                            @Html.DisplayNameFor(model => model.NewsCategory)
                                         </th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            @Html.DisplayNameFor(model => model.AccountID)
+                                            @Html.DisplayNameFor(model => model.Account)
                                         </th>
                                         <th>Action</th>
                                     </tr>
@@ -75,13 +74,6 @@
                                             <td>
                                                 <div class="d-flex px-2 py-1">
                                                     <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm">@Html.Raw(item.Contents)</h6>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex px-2 py-1">
-                                                    <div class="d-flex flex-column justify-content-center">
                                                         <h6 class="mb-0 text-sm">@Html.DisplayFor(modelItem => item.ShortContents)</h6>
                                                     </div>
                                                 </div>
@@ -89,7 +81,7 @@
                                             <td>
                                                 <div class="d-flex px-2 py-1">
                                                     <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm"> @Html.DisplayFor(modelItem => item.Picture)</h6>
+                                                        <img class="img-fluid" src="~/images/@item.Picture" style="object-fit:cover; height:50px; width:50px">
                                                     </div>
                                                 </div>
                                             </td>
@@ -101,23 +93,25 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <div class="d-flex px-2 py-1">
-                                                    <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm">@Html.DisplayFor(modelItem => item.CategoryID)</h6>
-                                                    </div>
-                                                </div>
+                                                    <div class="d-flex px-2 py-1">
+                                                        <div class="d-flex flex-column justify-content-center">
+                                                                <h6 class="mb-0 text-sm">
+                                                                    @Html.DisplayFor(modelItem => item.CategoryName)
+                                                                </h6>
+                                                        </div>
+                                                    </div>                                                                                     
                                             </td>
                                             <td>
                                                 <div class="d-flex px-2 py-1">
                                                     <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm">@Html.DisplayFor(modelItem => item.AccountID)</h6>
+                                                        <h6 class="mb-0 text-sm">@Html.DisplayFor(modelItem => item.AccountName)</h6>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div>
-                                                    @Html.ActionLink("Update", "Edit", new { id = item.NewsID }, new { @class = "text-success" })
-                                                    @Html.ActionLink("Delete", "Delete", new { id = item.NewsID }, new { @class = "text-danger" })
+                                                    <button type="button" class="btn btn-success">@Html.ActionLink("Update", "Edit", new { id = item.NewsID })</button>&nbsp;
+                                                    <button type="button" class="btn btn-danger">@Html.ActionLink("Delete", "Delete", new { id = item.NewsID })</button>&nbsp;                                                                              
                                                 </div>
                                             </td>
                                         </tr>
@@ -131,7 +125,9 @@
         </div>
     }
 </div>
-@*@section Scripts{
-            <script type="text/javascript" src="~/Scripts/jquery-ui.js"></script>
-            <script src="~/controller/newscontroller.js"></script>
-            }*@
+<div class="class=" pull-right">
+    <button type="button" class="btn btn-info">
+        @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page = page }))
+    </button>
+    
+</div>
