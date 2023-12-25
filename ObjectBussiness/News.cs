@@ -34,6 +34,6 @@ namespace ObjectBussiness
         [JsonIgnore]
         public virtual Account? Account { get; set; }
         [JsonIgnore]
-        public virtual NewsCategory? NewsCategory { get; set; }
+        public virtual NewsCategory? Category { get; set; }
     }
 }

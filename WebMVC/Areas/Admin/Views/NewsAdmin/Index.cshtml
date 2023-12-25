@@ -11,7 +11,7 @@
 <div class="container-fluid py-4">
 
     <p>
-        <a style="color:black;background-color:yellow" class="btn" href="@Url.Action("Create","News")">Create New</a>
+        <a style="color:black;background-color:yellow" class="btn" href="~/Admin/NewsAdmin/Create">Create New</a>
     </p>
     <br />
 
@@ -33,19 +33,19 @@
                                         </th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             @Html.DisplayNameFor(model => model.Title)
-                                        </th>                                     
+                                        </th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             @Html.DisplayNameFor(model => model.ShortContents)
                                         </th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             @Html.DisplayNameFor(model => model.Picture)
-                                            
+
                                         </th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             @Html.DisplayNameFor(model => model.DateSubmitted)
                                         </th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            @Html.DisplayNameFor(model => model.NewsCategory)
+                                            @Html.DisplayNameFor(model => model.Category)
                                         </th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             @Html.DisplayNameFor(model => model.Account)
@@ -93,13 +93,13 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                    <div class="d-flex px-2 py-1">
-                                                        <div class="d-flex flex-column justify-content-center">
-                                                                <h6 class="mb-0 text-sm">
-                                                                    @Html.DisplayFor(modelItem => item.CategoryName)
-                                                                </h6>
-                                                        </div>
-                                                    </div>                                                                                     
+                                                <div class="d-flex px-2 py-1">
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm">
+                                                            @Html.DisplayFor(modelItem => item.CategoryName)
+                                                        </h6>
+                                                    </div>
+                                                </div>
                                             </td>
                                             <td>
                                                 <div class="d-flex px-2 py-1">
@@ -111,7 +111,7 @@
                                             <td>
                                                 <div>
                                                     <button type="button" class="btn btn-success">@Html.ActionLink("Update", "Edit", new { id = item.NewsID })</button>&nbsp;
-                                                    <button type="button" class="btn btn-danger">@Html.ActionLink("Delete", "Delete", new { id = item.NewsID })</button>&nbsp;                                                                              
+                                                    <button type="button" class="btn btn-danger">@Html.ActionLink("Delete", "Delete", new { id = item.NewsID })</button>&nbsp;
                                                 </div>
                                             </td>
                                         </tr>
@@ -124,10 +124,10 @@
             </div>
         </div>
     }
-</div>
-<div class="class=" pull-right">
-    <button type="button" class="btn btn-info">
-        @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page = page }))
-    </button>
-    
+    @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page = page, SearchString = @Context.Request.Query["SearchString"] }),
+            new X.PagedList.Web.Common.PagedListRenderOptions
+    {
+        LiElementClasses = new string[] { "page-item" },
+        PageClasses = new string[] { "page-link" }
+    })
 </div>

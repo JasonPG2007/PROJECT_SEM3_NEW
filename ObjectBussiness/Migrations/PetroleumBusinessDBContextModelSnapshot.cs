@@ -202,9 +202,6 @@ namespace ObjectBussiness.Migrations
                     b.Property<DateTime>("DateSubmitted")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("NewsCategoryCategoryID")
-                        .HasColumnType("int");
-
                     b.Property<string>("Picture")
                         .HasColumnType("nvarchar(max)");
 
@@ -218,7 +215,7 @@ namespace ObjectBussiness.Migrations
 
                     b.HasIndex("AccountID");
 
-                    b.HasIndex("NewsCategoryCategoryID");
+                    b.HasIndex("CategoryID");
 
                     b.ToTable("News");
                 });
@@ -413,13 +410,15 @@ namespace ObjectBussiness.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ObjectBussiness.NewsCategory", "NewsCategory")
+                    b.HasOne("ObjectBussiness.NewsCategory", "Category")
                         .WithMany("News")
-                        .HasForeignKey("NewsCategoryCategoryID");
+                        .HasForeignKey("CategoryID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Account");
 
-                    b.Navigation("NewsCategory");
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("ObjectBussiness.Question", b =>

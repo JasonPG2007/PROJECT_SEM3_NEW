@@ -8,6 +8,7 @@ using X.PagedList;
 
 namespace WebMVC.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class QuestionAdminController : Controller
     {
         #region Variable

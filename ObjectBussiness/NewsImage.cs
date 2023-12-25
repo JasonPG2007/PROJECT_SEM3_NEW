@@ -26,7 +26,7 @@ namespace ObjectBussiness
         public int AccountID { get; set; }
         [Display(Name = "Category ID")]
         public int CategoryID { get; set; }
-        [Display(Name = "Upload file")]
+        [Display(Name = "Upload image")]
         public IFormFile ImageFile { get; set; }
     }
 }
