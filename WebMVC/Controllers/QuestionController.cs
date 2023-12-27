@@ -46,15 +46,23 @@ namespace WebMVC.Areas.Admin.Controllers
         #endregion
 
         #region StartQuiz View
-        public async Task<ActionResult> StartQuiz(int id)
+        public async Task<ActionResult> StartQuiz(int id, int? page)
         {
-            HttpResponseMessage responseMessage = await httpClient.GetAsync("https://localhost:7274/api/QuestionAPI/GetQueueQuestion");
+            HttpResponseMessage responseMessage = await httpClient.GetAsync($"https://localhost:7274/api/QuestionAPI/GetQuestionByExam/{id}");
             var data = await responseMessage.Content.ReadAsStringAsync();
             var options = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             };
-            Question questions = JsonSerializer.Deserialize<Question>(data, options);
+            IPagedList<Question> questions = JsonSerializer.Deserialize<List<Question>>(data, options).ToPagedList(page ?? 1, 1);
+            if (questions.Count == 0)
+            {
+                ViewBag.Message = "No question.";
+            }
+            if (questions.Count > 0)
+            {
+                ViewBag.Count = questions.Count;
+            }
             return View(questions);
         }
         #endregion
