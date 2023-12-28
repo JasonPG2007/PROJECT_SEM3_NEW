@@ -10,12 +10,16 @@ namespace WebAPI.Controllers
     [ApiController]
     public class QuestionAPIController : ControllerBase
     {
+        #region Variable
         private readonly IQuestionRepository questionRepository;
         private readonly Queue<Question> q = new Queue<Question>();
         private readonly IExamRepository examRepository;
         private readonly PetroleumBusinessDBContext db;
         private readonly IRoundRepository roundRepository;
         Queue<Question> questionQueue = new Queue<Question>();
+        #endregion
+
+        #region Constructor
         public QuestionAPIController()
         {
             roundRepository = new RoundRepository();
@@ -23,18 +27,27 @@ namespace WebAPI.Controllers
             examRepository = new ExamRepository();
             questionRepository = new QuestionRepository();
         }
+        #endregion
+
+        #region API Get
         // GET: api/<QuestionAPIController>
         [HttpGet]
         public IEnumerable<Question> Get()
         {
             return questionRepository.GetQuestions();
         }
+        #endregion
+
+        #region API Search
         [Route("Search")]
         [HttpGet]
         public IEnumerable<Question> Search(string name, string? sortBy)
         {
             return questionRepository.SearchByNameOrSortBy(name, sortBy);
         }
+        #endregion
+
+        #region API Get {id}
         // GET api/<QuestionAPIController>/5
         [HttpGet("{id}")]
         public ActionResult<Question> Get(int id)
@@ -46,6 +59,9 @@ namespace WebAPI.Controllers
             }
             return check;
         }
+        #endregion
+
+        #region 
         [HttpGet("GetQuestionByExam/{id}")]
         public IEnumerable<Question> GetQuestionByRound(int id)
         {
@@ -56,6 +72,9 @@ namespace WebAPI.Controllers
             }
             return Enumerable.Empty<Question>();
         }
+        #endregion
+
+
         [Route("GetQueueQuestion")]
         [HttpGet]
         public IEnumerable<Question> GetQueueQuestion(int score)
@@ -78,7 +97,7 @@ namespace WebAPI.Controllers
             //    return NotFound();
             //}
             var check = questionRepository.GetQuestions();
-            if(check != null)
+            if (check != null)
             {
                 return check;
             }
