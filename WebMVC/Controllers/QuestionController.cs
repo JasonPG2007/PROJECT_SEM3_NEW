@@ -46,7 +46,7 @@ namespace WebMVC.Areas.Admin.Controllers
         #endregion
 
         #region StartQuiz View
-        public async Task<ActionResult> StartQuiz(int id, int? page)
+        public async Task<ActionResult> StartQuiz(int id, int? page, string selectedAnswer)
         {
             HttpResponseMessage responseMessage = await httpClient.GetAsync($"https://localhost:7274/api/QuestionAPI/GetQuestionByExam/{id}");
             var data = await responseMessage.Content.ReadAsStringAsync();
@@ -59,9 +59,40 @@ namespace WebMVC.Areas.Admin.Controllers
             {
                 ViewBag.Message = "No question.";
             }
-            if (questions.Count > 0)
+
+            HttpResponseMessage responseMessageList = await httpClient.GetAsync(ApiUrl);
+            var dataList = await responseMessageList.Content.ReadAsStringAsync();
+            var optionsList = new JsonSerializerOptions
             {
-                ViewBag.Count = questions.Count;
+                PropertyNameCaseInsensitive = true
+            };
+            List<Question> listQuestion = JsonSerializer.Deserialize<List<Question>>(data, options);
+            if (listQuestion.Count > 0)
+            {
+                ViewBag.Count = listQuestion.Count;
+            }
+            if (selectedAnswer != null)
+            {
+                HttpResponseMessage responseMessageCheckAnswer = await httpClient.GetAsync($"https://localhost:7274/api/QuestionAPI/CheckAnswer/{selectedAnswer}");
+                var dataAnswer = await responseMessageCheckAnswer.Content.ReadAsStringAsync();
+                var optionsAnswer = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+                int answer = JsonSerializer.Deserialize<int>(dataAnswer, optionsAnswer);
+                TempData["Score"] = answer;
+
+                int pageNumber = 1;
+                if (pageNumber < listQuestion.Count)
+                {
+                    pageNumber++;
+                    return RedirectToAction("StartQuiz", new { id = id, page = pageNumber });
+                }
+                else
+                {
+                    return RedirectToAction("StartQuiz", new { id = id, page = listQuestion.Count });
+                }
+
             }
             return View(questions);
         }
@@ -69,19 +100,24 @@ namespace WebMVC.Areas.Admin.Controllers
 
         #region StartQuiz Post
         [HttpPost]
-        public async Task<ActionResult> StartQuiz(Question question)
+        public async Task<Question> StartQuiz(Question question, string selectedAnswer)
         {
-            if (questionsQueue.Count > 0)
+            int score = 0;
+            if (selectedAnswer != null)
             {
-                string nextQuestion = questionsQueue.Dequeue(); // Lấy câu hỏi ở đầu Queue
-                ViewBag.CurrentQuestion = nextQuestion; // Truyền câu hỏi cho view
-                return View(); // Trả về view để hiển thị câu hỏi
+                if (selectedAnswer == "")
+                {
+
+                }
             }
-            else
-            {
-                ViewBag.CurrentQuestion = "Không còn câu hỏi nào"; // Hiển thị thông báo khi hết câu hỏi
-                return View(); // Trả về view để hiển thị thông báo
-            }
+            return question;
+        }
+        #endregion
+
+        #region Result
+        public async Task<ActionResult> Result()
+        {
+            return View();
         }
         #endregion
     }

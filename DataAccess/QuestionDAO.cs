@@ -52,6 +52,12 @@ namespace DataAccess
                            };
             return question;
         }
+        public string GetCorrectAnswerBySelectAnswer(string selectAnswer)
+        {
+            using var context = new PetroleumBusinessDBContext();
+            var correct = context.Questions.Where(c => c.SelectedAnswer == selectAnswer).Select(c => c.CorrectAnswer).SingleOrDefault();
+            return correct;
+        }
         public IEnumerable<Question> GetQuestions()
         {
             var question = from a in db.Questions

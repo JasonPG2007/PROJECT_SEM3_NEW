@@ -12,6 +12,8 @@ namespace Repository
     {
         public void DeleteQuestion(int id) => QuestionDAO.Instance.DeleteQuestion(id);
 
+        public string GetCorrectAnswerBySelectAnswer(string selectAnswer) => QuestionDAO.Instance.GetCorrectAnswerBySelectAnswer(selectAnswer);
+
         public Question GetQuestionById(int id) => QuestionDAO.Instance.GetQuestionById(id);
 
         public IEnumerable<Question> GetQuestions() => QuestionDAO.Instance.GetQuestions();

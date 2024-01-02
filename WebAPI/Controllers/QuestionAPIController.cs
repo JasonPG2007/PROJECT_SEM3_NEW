@@ -61,7 +61,7 @@ namespace WebAPI.Controllers
         }
         #endregion
 
-        #region 
+        #region API GetQuestionByRound
         [HttpGet("GetQuestionByExam/{id}")]
         public IEnumerable<Question> GetQuestionByRound(int id)
         {
@@ -74,7 +74,7 @@ namespace WebAPI.Controllers
         }
         #endregion
 
-
+        #region API GetQueueQuestion
         [Route("GetQueueQuestion")]
         [HttpGet]
         public IEnumerable<Question> GetQueueQuestion(int score)
@@ -107,6 +107,9 @@ namespace WebAPI.Controllers
             }
 
         }
+        #endregion
+
+        #region API GetRoundID
         [Route("GetRoundID")]
         [HttpGet]
         public IEnumerable<Round> GetRoundID()
@@ -114,61 +117,80 @@ namespace WebAPI.Controllers
             var rs = roundRepository.GetRoundId();
             return rs;
         }
+        #endregion
+
+        #region API POST
         // POST api/<QuestionAPIController>
         [HttpPost]
         public void Post(Question question)
         {
             questionRepository.InsertQuestion(question);
         }
-        [Route("CheckAnswer")]
-        [HttpPost]
-        public void CheckAnswer(Question question)
+        #endregion
+
+        #region CheckAnswer
+        [Route("CheckAnswer/{selectedAnswer}")]
+        [HttpGet]
+        public int CheckAnswer(string selectedAnswer)
         {
+            Question question = new Question();
             int score = 0;
             string correctAnswer = "";
-            if (question.AnswerA != null)
-            {
-                correctAnswer = "A";
-            }
-            if (question.AnswerB != null)
-            {
-                correctAnswer = "B";
-            }
-            if (question.AnswerC != null)
-            {
-                correctAnswer = "C";
-            }
-            if (question.AnswerD != null)
-            {
-                correctAnswer = "D";
-            }
-            Queue<Question> q = new Queue<Question>();
-            PetroleumBusinessDBContext db = new PetroleumBusinessDBContext();
-            foreach (var item in db.Questions.ToList())
-            {
-                q.Enqueue(item);
-            }
-            question = q.Peek();
-            q.Dequeue();
-            if (correctAnswer.Equals(question.CorrectAnswer))
-            {
-                score += 1;
-            }
-            RedirectToAction("GetQueueQuestion", new { data = score });
-        }
 
+            //if (question.AnswerA != null)
+            //{
+            //    correctAnswer = "A";
+            //}
+            //if (question.AnswerB != null)
+            //{
+            //    correctAnswer = "B";
+            //}
+            //if (question.AnswerC != null)
+            //{
+            //    correctAnswer = "C";
+            //}
+            //if (question.AnswerD != null)
+            //{
+            //    correctAnswer = "D";
+            //}
+
+            //Queue<Question> q = new Queue<Question>();
+            //PetroleumBusinessDBContext db = new PetroleumBusinessDBContext();
+            //foreach (var item in db.Questions.ToList())
+            //{
+            //    q.Enqueue(item);
+            //}
+            //question = q.Peek();
+            //q.Dequeue();
+
+            //var result = questionRepository.GetCorrectAnswerBySelectAnswer(selectedAnswer);
+
+            //if (result != null)
+            //{
+            //    return score += 1;
+            //}
+            score += 1;
+            return score;
+        }
+        #endregion
+
+
+        #region API PUT
         // PUT api/<QuestionAPIController>/5
         [HttpPut("{id}")]
         public void Put(Question question)
         {
             questionRepository.UpdateQuestion(question);
         }
+        #endregion
 
+        #region API Delete
         // DELETE api/<QuestionAPIController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
             questionRepository.DeleteQuestion(id);
         }
+        #endregion
     }
 }
