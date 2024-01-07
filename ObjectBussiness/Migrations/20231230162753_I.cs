@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ObjectBussiness.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class I : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -213,7 +213,8 @@ namespace ObjectBussiness.Migrations
                     Picture = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DateSubmitted = table.Column<DateTime>(type: "datetime2", nullable: false),
                     AccountID = table.Column<int>(type: "int", nullable: false),
-                    CategoryID = table.Column<int>(type: "int", nullable: false)
+                    CategoryID = table.Column<int>(type: "int", nullable: false),
+                    NewsCategoriesCategoryID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -225,11 +226,10 @@ namespace ObjectBussiness.Migrations
                         principalColumn: "AccountID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_News_NewsCategories_CategoryID",
-                        column: x => x.CategoryID,
+                        name: "FK_News_NewsCategories_NewsCategoriesCategoryID",
+                        column: x => x.NewsCategoriesCategoryID,
                         principalTable: "NewsCategories",
-                        principalColumn: "CategoryID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "CategoryID");
                 });
 
             migrationBuilder.CreateTable(
@@ -313,9 +313,9 @@ namespace ObjectBussiness.Migrations
                 column: "AccountID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_News_CategoryID",
+                name: "IX_News_NewsCategoriesCategoryID",
                 table: "News",
-                column: "CategoryID");
+                column: "NewsCategoriesCategoryID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Questions_RoundID",

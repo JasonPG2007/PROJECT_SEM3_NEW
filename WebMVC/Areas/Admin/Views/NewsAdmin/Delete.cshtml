@@ -58,11 +58,11 @@
         </dl>
         <br />
 
-        @using (Html.BeginForm("Delete", "News", FormMethod.Post))
+        @using (Html.BeginForm("Delete", "NewsAdmin", FormMethod.Post))
         {
             <input type="hidden" asp-for="NewsID" />
             <input type="submit" value="Delete" class="btn btn-danger" />
-            @Html.ActionLink("Back To List", "Index", "News", null, new { @class = "btn btn-success" })
+            @Html.ActionLink("Back To List", "Index", "NewsAdmin", null, new { @class = "btn btn-success" })
         }
     </div>
 </div>

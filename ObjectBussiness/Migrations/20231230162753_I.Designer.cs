@@ -12,8 +12,8 @@ using ObjectBussiness;
 namespace ObjectBussiness.Migrations
 {
     [DbContext(typeof(PetroleumBusinessDBContext))]
-    [Migration("20231225043030_Initial")]
-    partial class Initial
+    [Migration("20231230162753_I")]
+    partial class I
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -205,6 +205,9 @@ namespace ObjectBussiness.Migrations
                     b.Property<DateTime>("DateSubmitted")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("NewsCategoriesCategoryID")
+                        .HasColumnType("int");
+
                     b.Property<string>("Picture")
                         .HasColumnType("nvarchar(max)");
 
@@ -218,7 +221,7 @@ namespace ObjectBussiness.Migrations
 
                     b.HasIndex("AccountID");
 
-                    b.HasIndex("CategoryID");
+                    b.HasIndex("NewsCategoriesCategoryID");
 
                     b.ToTable("News");
                 });
@@ -413,15 +416,13 @@ namespace ObjectBussiness.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ObjectBussiness.NewsCategory", "Category")
+                    b.HasOne("ObjectBussiness.NewsCategory", "NewsCategories")
                         .WithMany("News")
-                        .HasForeignKey("CategoryID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("NewsCategoriesCategoryID");
 
                     b.Navigation("Account");
 
-                    b.Navigation("Category");
+                    b.Navigation("NewsCategories");
                 });
 
             modelBuilder.Entity("ObjectBussiness.Question", b =>
