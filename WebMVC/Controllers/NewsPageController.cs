@@ -37,7 +37,6 @@ namespace WebMVC.Controllers
         // GET: NewsController/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            // Gửi yêu cầu GET đến API để lấy thông tin chi tiết theo ID
             HttpResponseMessage responseMessage = await _httpClient.GetAsync($"{NewsApiUrl}/{id}");
 
             if (responseMessage.IsSuccessStatusCode)

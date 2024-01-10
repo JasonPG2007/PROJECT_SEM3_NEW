@@ -58,11 +58,10 @@
         </dl>
         <br />
 
-        @using (Html.BeginForm("Delete", "News", FormMethod.Post))
-        {
-            <input type="hidden" asp-for="NewsID" />
+        <form action="Delete" method="post">
+            <input type="hidden" id="id" name="id" value="@Model.NewsID">
             <input type="submit" value="Delete" class="btn btn-danger" />
-            @Html.ActionLink("Back To List", "Index", "News", null, new { @class = "btn btn-success" })
-        }
+            <a href="~/Admin/NewsAdmin" class="btn btn-danger">Back To List</a>
+        </form>
     </div>
 </div>

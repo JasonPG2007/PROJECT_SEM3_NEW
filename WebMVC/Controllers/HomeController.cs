@@ -10,6 +10,10 @@ namespace WebMVC.Controllers
         {
             return View();
         }
+        public ActionResult About()
+        {
+            return View();
+        }
 
         // GET: HomeController/Details/5
         public ActionResult Details(int id)

@@ -13,9 +13,18 @@
     <p>
         <a style="color:black;background-color:yellow" class="btn" href="~/Admin/NewsAdmin/Create">Create New</a>
     </p>
+    <div class="text-align">
+        @if (TempData["AlertMessage"] != null)
+        {
+            <div id="AlertBox" class="alert @TempData["AlertType"]">
+
+                @TempData["AlertMessage"]
+            </div>
+        }
+    </div>
     <br />
 
-    @using (Html.BeginForm("Index", "News", FormMethod.Get))
+    @using (Html.BeginForm("Index", "NewsAdmin", FormMethod.Get))
     {
         <div class="row">
             <div class="col-12">
@@ -45,7 +54,7 @@
                                             @Html.DisplayNameFor(model => model.DateSubmitted)
                                         </th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            @Html.DisplayNameFor(model => model.Category)
+                                            @Html.DisplayNameFor(model => model.CategoryName)
                                         </th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             @Html.DisplayNameFor(model => model.Account)
@@ -110,8 +119,8 @@
                                             </td>
                                             <td>
                                                 <div>
-                                                    <button type="button" class="btn btn-success">@Html.ActionLink("Update", "Edit", new { id = item.NewsID })</button>&nbsp;
-                                                    <button type="button" class="btn btn-danger">@Html.ActionLink("Delete", "Delete", new { id = item.NewsID })</button>&nbsp;
+                                                    <button type="button" class="btn btn-success"><a href="~/Admin/NewsAdmin/Edit/@item.NewsID">Update</a></button>&nbsp;
+                                                    <button type="button" class="btn btn-danger"><a href="~/Admin/NewsAdmin/Delete/@item.NewsID">Delete</a></button>&nbsp;
                                                 </div>
                                             </td>
                                         </tr>
