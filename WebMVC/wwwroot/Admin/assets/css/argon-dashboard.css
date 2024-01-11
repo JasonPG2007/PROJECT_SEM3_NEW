@@ -20107,26 +20107,32 @@ fieldset:disabled .btn {
 
 .alert-success {
   background-image: linear-gradient(310deg, #2dce89 0%, #26adab 100%);
+  color: white;
 }
 
 .alert-info {
-  background-image: linear-gradient(310deg, #1171ef 0%, #0eadca 100%);
+    background-image: linear-gradient(310deg, #1171ef 0%, #0eadca 100%);
+    color: white;
 }
 
 .alert-warning {
-  background-image: linear-gradient(310deg, #fb6340 0%, #faa118 100%);
+    background-image: linear-gradient(310deg, #fb6340 0%, #faa118 100%);
+    color: white;
 }
 
 .alert-danger {
-  background-image: linear-gradient(310deg, #f5365c 0%, #f3410f 100%);
+    background-image: linear-gradient(310deg, #f5365c 0%, #f3410f 100%);
+    color: white;
 }
 
 .alert-light {
-  background-image: linear-gradient(310deg, #CED4DA 0%, #d1dae6 100%);
+    background-image: linear-gradient(310deg, #CED4DA 0%, #d1dae6 100%);
+    color: white;
 }
 
 .alert-dark {
-  background-image: linear-gradient(310deg, #212229 0%, #0f1112 100%);
+    background-image: linear-gradient(310deg, #212229 0%, #0f1112 100%);
+    color: white;
 }
 
 .btn-close:focus {

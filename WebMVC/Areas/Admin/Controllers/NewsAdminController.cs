@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ObjectBussiness;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using X.PagedList;
@@ -235,6 +236,37 @@ namespace WebMVC.Areas.Admin.Controllers
                 ModelState.AddModelError("", "Error while call Web API");
             }
             return RedirectToAction(nameof(Index));
+        }
+        #endregion
+
+        // GET: DeleteId
+        #region DeleteId
+        [HttpPost]
+        public async Task<JsonResult> DeleteId(int id)
+        {
+            try
+            {
+                HttpResponseMessage responseMessage = await _httpClient.DeleteAsync($"{NewsApiUrl}/{id}");
+                HttpResponseMessage responseMessageData = await _httpClient.GetAsync(NewsApiUrl);
+                var data = await responseMessageData.Content.ReadAsStringAsync();
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true,
+                };
+                List<News> news = JsonSerializer.Deserialize<List<News>>(data, options);
+                if (news == null)
+                {
+                    return Json(new { success = false, message = "No news found" });
+                }
+                return Json(new
+                {
+                    status = true
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
         }
         #endregion
     }

@@ -58,7 +58,7 @@
                 <br />
                 <div class="form-group">
                     @Html.LabelFor(n => n.AccountID)
-                    @Html.EditorFor(model => model.AccountID, new { htmlAttributes = new { @class = "form-control", @placeholder = "Pleate enter AccountID" } })
+                    @Html.EditorFor(model => model.AccountID, new { htmlAttributes = new { @class = "form-control", @placeholder = "Please enter AccountID", @Value = "1" } })
                     <span asp-validation-for="AccountID" class="text-danger"></span>
                 </div>
                 <br />

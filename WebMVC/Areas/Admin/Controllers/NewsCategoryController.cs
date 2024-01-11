@@ -155,5 +155,36 @@ namespace WebMVC.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
         #endregion
+
+        // GET: DeleteId
+        #region DeleteId
+        [HttpPost]
+        public async Task<JsonResult> DeleteId(int id)
+        {
+            try
+            {
+                HttpResponseMessage responseMessage = await _httpClient.DeleteAsync($"{NewsCategoryApiUrl}/{id}");
+                HttpResponseMessage responseMessageData = await _httpClient.GetAsync(NewsCategoryApiUrl);
+                var data = await responseMessageData.Content.ReadAsStringAsync();
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true,
+                };
+                List<NewsCategory> newsCategories = JsonSerializer.Deserialize<List<NewsCategory>>(data, options);
+                if (newsCategories == null)
+                {
+                    return Json(new { success = false, message = "No newscategory found" });
+                }
+                return Json(new
+                {
+                    status = true
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+        #endregion
     }
 }
