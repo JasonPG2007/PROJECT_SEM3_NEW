@@ -1,0 +1,134 @@
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using ObjectBussiness;
+using System.Net.Http.Headers;
+using System.Text.Json;
+
+namespace WebMVC.Areas.Admin.Controllers
+{
+    [Area("Admin")]
+    public class RegisterAdminController : Controller
+    {
+        private readonly HttpClient httpClient;
+        private readonly string ApiUrl = "";
+        public RegisterAdminController()
+        {
+            httpClient = new HttpClient();
+            var type = new MediaTypeWithQualityHeaderValue("application/json");
+            httpClient.DefaultRequestHeaders.Accept.Add(type);
+            ApiUrl = "https://localhost:7274/api/ExamRegisterAPI";
+        }
+        // GET: RegisterAdminController
+        public ActionResult Index()
+        {
+            return View();
+        }
+        public ActionResult Register()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Register(ExamRegister examRegister)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var gender = Request.Form["gender"];
+                    Random random = new Random();
+                    examRegister.ExamRegisterID = random.Next();
+                    if (gender == "Male")
+                    {
+                        examRegister.Gender = true;
+                    }
+                    else
+                    {
+                        examRegister.Gender = false;
+                    }
+                    var data = JsonSerializer.Serialize(examRegister);
+                    var typeData = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
+                    HttpResponseMessage responseMessage = await httpClient.PostAsync(ApiUrl, typeData);
+                    if (responseMessage.IsSuccessStatusCode)
+                    {
+                        RedirectToAction("", "Login");
+                    }
+                    throw new ArgumentException("Register failed!");
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
+            return View();
+        }
+        // GET: RegisterAdminController/Details/5
+        public ActionResult Details(int id)
+        {
+            return View();
+        }
+
+        // GET: RegisterAdminController/Create
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: RegisterAdminController/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(IFormCollection collection)
+        {
+            try
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: RegisterAdminController/Edit/5
+        public ActionResult Edit(int id)
+        {
+            return View();
+        }
+
+        // POST: RegisterAdminController/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, IFormCollection collection)
+        {
+            try
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: RegisterAdminController/Delete/5
+        public ActionResult Delete(int id)
+        {
+            return View();
+        }
+
+        // POST: RegisterAdminController/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id, IFormCollection collection)
+        {
+            try
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+    }
+}

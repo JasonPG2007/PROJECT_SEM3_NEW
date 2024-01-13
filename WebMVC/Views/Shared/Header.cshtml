@@ -21,7 +21,13 @@
                     <li><a href="@Url.Action("Index","NewsPage")" class="animsition-link">News</a></li>
                     <li><a href="@Url.Action("Index","ContactPage")" class="animsition-link">Contact</a></li>
                     <li><a href="~/Admin/Manager" class="animsition-link">Manager</a></li>
-                    <li><a href="" class="animsition-link">Login/Register</a></li>
+                    <li>
+                        <a href="" class="animsition-link">Login/Register</a>
+                        <ul>
+                            <li><a href="@Url.Action("","Login")">Login</a></li>
+                            <li><a href="~/Admin/RegisterAdmin/Register">Exam Register</a></li>
+                        </ul>
+                    </li>
                 </ul> <!-- .templateux-menu -->
 
             </nav> <!-- .site-nav -->

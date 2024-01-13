@@ -28,5 +28,7 @@ namespace ObjectBussiness
         public virtual Exam? Exam { get; set; }
         [JsonIgnore]
         public virtual ExamRegister? ExamRegister { get; set; }
+        [NotMapped]
+        public string? UserName { get; set; }
     }
 }

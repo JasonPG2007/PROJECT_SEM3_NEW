@@ -18,6 +18,7 @@ namespace ObjectBussiness
         public string CandidateName { get; set; }
         public int Age { get; set; }
         public bool Gender { get; set; } //True(False) is Male(Female)
+        [Display(Name = "Birth Day")]
         public DateTime BirthDay { get; set; }
         [Display(Name = "Phone number")]
         [RegularExpression("^0[1-9]\\d\\d{3}\\d{4}$")]
