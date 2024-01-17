@@ -34,7 +34,7 @@ namespace ObjectBussiness
         [JsonIgnore]
         public virtual Account? Account { get; set; }
         [NotMapped]
-        [Display(Name = "Exam ID")]
+        [Display(Name = "Exam name")]
         public int ExamID { get; set; }
     }
 }
