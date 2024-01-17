@@ -11,8 +11,10 @@ namespace WebAPI.Controllers
     public class ExamRegisterAPIController : ControllerBase
     {
         private readonly IExamRegisterRepository examRegisterRepository;
+        private readonly IAccountRepository accountRepository;
         public ExamRegisterAPIController()
         {
+            accountRepository = new AccountRepository();
             examRegisterRepository = new ExamRegisterRepository();
         }
         // GET: api/<ExamRegisterAPIController>
@@ -49,5 +51,23 @@ namespace WebAPI.Controllers
         {
             examRegisterRepository.DeleteExamRegister(id);
         }
+
+        #region Account
+
+        [Route("GetAllPassword")]
+        [HttpGet]
+        public IEnumerable<string> GetAllPassword()
+        {
+            return accountRepository.GetAllPassword();
+        }
+
+        [Route("PostAccount")]
+        [HttpPost]
+        public void PostAccount(Account account)
+        {
+            accountRepository.InsertAccount(account);
+        }
+
+        #endregion
     }
 }

@@ -5,7 +5,6 @@ using ObjectBussiness;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using X.PagedList;
-using static System.Net.WebRequestMethods;
 
 namespace WebMVC.Areas.Admin.Controllers
 {

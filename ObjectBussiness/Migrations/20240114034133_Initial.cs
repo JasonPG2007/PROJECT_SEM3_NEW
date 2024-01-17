@@ -268,6 +268,16 @@ namespace ObjectBussiness.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "ExamRegister",
+                columns: new[] { "ExamRegisterID", "Age", "BirthDay", "CandidateName", "City", "Country", "Email", "Gender", "Phone", "PlaceOfBirth", "ResidentialAddress" },
+                values: new object[] { 1, 17, new DateTime(2024, 1, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), "Admin", "Đà Nẵng", "Việt Nam", "admin@gmail.com", true, "0911040107", "Đà Nẵng", "22 Nguyễn Thức Tự,Hoà Hải,Ngũ Hàng Sơn,Đà Nẵng" });
+
+            migrationBuilder.InsertData(
+                table: "Exams",
+                columns: new[] { "ExamID", "DateCreateTest", "ExamName", "Status", "TimeBegin", "TimeDelay", "TimeEnd" },
+                values: new object[] { 1, new DateTime(2024, 1, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), "Admin(Not select)", "Start", new DateTime(2024, 1, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), null, new DateTime(2024, 1, 14, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.InsertData(
                 table: "NewsCategories",
                 columns: new[] { "CategoryID", "CategoryName" },
                 values: new object[,]
@@ -284,6 +294,11 @@ namespace ObjectBussiness.Migrations
                     { 1, "Admin" },
                     { 2, "Candidate" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "Accounts",
+                columns: new[] { "AccountID", "ExamID", "ExamRegisterID", "Password" },
+                values: new object[] { 1, 1, 1, "Admin@123.cntt" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Accounts_ExamID",

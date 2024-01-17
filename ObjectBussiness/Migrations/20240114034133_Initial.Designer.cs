@@ -12,7 +12,7 @@ using ObjectBussiness;
 namespace ObjectBussiness.Migrations
 {
     [DbContext(typeof(PetroleumBusinessDBContext))]
-    [Migration("20231225043030_Initial")]
+    [Migration("20240114034133_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -48,6 +48,15 @@ namespace ObjectBussiness.Migrations
                         .IsUnique();
 
                     b.ToTable("Accounts");
+
+                    b.HasData(
+                        new
+                        {
+                            AccountID = 1,
+                            ExamID = 1,
+                            ExamRegisterID = 1,
+                            Password = "Admin@123.cntt"
+                        });
                 });
 
             modelBuilder.Entity("ObjectBussiness.Decentralization", b =>
@@ -126,6 +135,17 @@ namespace ObjectBussiness.Migrations
                     b.HasKey("ExamID");
 
                     b.ToTable("Exams");
+
+                    b.HasData(
+                        new
+                        {
+                            ExamID = 1,
+                            DateCreateTest = new DateTime(2024, 1, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExamName = "Admin(Not select)",
+                            Status = "Start",
+                            TimeBegin = new DateTime(2024, 1, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeEnd = new DateTime(2024, 1, 14, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("ObjectBussiness.ExamRegister", b =>
@@ -173,6 +193,22 @@ namespace ObjectBussiness.Migrations
                     b.HasKey("ExamRegisterID");
 
                     b.ToTable("ExamRegister");
+
+                    b.HasData(
+                        new
+                        {
+                            ExamRegisterID = 1,
+                            Age = 17,
+                            BirthDay = new DateTime(2024, 1, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CandidateName = "Admin",
+                            City = "Đà Nẵng",
+                            Country = "Việt Nam",
+                            Email = "admin@gmail.com",
+                            Gender = true,
+                            Phone = "0911040107",
+                            PlaceOfBirth = "Đà Nẵng",
+                            ResidentialAddress = "22 Nguyễn Thức Tự,Hoà Hải,Ngũ Hàng Sơn,Đà Nẵng"
+                        });
                 });
 
             modelBuilder.Entity("ObjectBussiness.History", b =>

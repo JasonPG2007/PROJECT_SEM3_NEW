@@ -57,8 +57,16 @@ namespace WebMVC.Controllers
             {
                 ModelState.AddModelError("", "Incorrect password or email or no account.");
             }
-            return View();
+            throw new ArgumentException("Incorrect password or email or no account.");
         }
+        #region Logout
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync("Admin");
+            Response.Cookies.Delete("userName");
+            return RedirectToAction("Index", "Home");
+        }
+        #endregion
         // GET: LoginController/Details/5
         public ActionResult Details(int id)
         {

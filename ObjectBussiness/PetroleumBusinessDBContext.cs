@@ -41,6 +41,39 @@ namespace ObjectBussiness
             modelBuilder.Entity<NewsCategory>().HasData(
                new NewsCategory { CategoryID = 1, CategoryName = "Gasoline Prices" },
                new NewsCategory { CategoryID = 2, CategoryName = "Recruitment Jobs" });
+
+            //Add data table Exam
+            modelBuilder.Entity<Exam>().HasData(
+                new Exam
+                {
+                    ExamID = 1,
+                    DateCreateTest = new DateTime(2024, 1, 14),
+                    ExamName = "Admin(Not select)",
+                    Status = "Start",
+                    TimeBegin = new DateTime(2024, 1, 14),
+                    TimeEnd = new DateTime(2024, 1, 14)
+                });
+
+            //Add data table ExamRegister
+            modelBuilder.Entity<ExamRegister>().HasData(
+                new ExamRegister
+                {
+                    ExamRegisterID = 1,
+                    Age = 17,
+                    BirthDay = new DateTime(2024, 1, 14),
+                    CandidateName = "Admin",
+                    City = "Đà Nẵng",
+                    Country = "Việt Nam",
+                    Email = "admin@gmail.com",
+                    Gender = true,
+                    Phone = "0911040107",
+                    PlaceOfBirth = "Đà Nẵng",
+                    ResidentialAddress = "22 Nguyễn Thức Tự,Hoà Hải,Ngũ Hàng Sơn,Đà Nẵng"
+                });
+
+            //Add data table Account
+            modelBuilder.Entity<Account>().HasData(
+                new Account { AccountID = 1, ExamID = 1, ExamRegisterID = 1, Password = "Admin@123.cntt" });
         }
     }
 }

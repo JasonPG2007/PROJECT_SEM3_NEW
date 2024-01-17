@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ObjectBussiness;
 using System.Net.Http.Headers;
@@ -7,6 +8,8 @@ using System.Text.Json;
 namespace WebMVC.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
+    [Authorize(AuthenticationSchemes = "Admin")]
     public class RegisterAdminController : Controller
     {
         private readonly HttpClient httpClient;
@@ -29,38 +32,42 @@ namespace WebMVC.Areas.Admin.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(ExamRegister examRegister)
+        public async Task<ActionResult> Register(ExamRegister examRegister, string password)
         {
-            if (ModelState.IsValid)
+            try
             {
-                try
+                //if (ModelState.IsValid)
+                //{
+                Account account = new Account();
+
+                var passwordHash = BCrypt.Net.BCrypt.HashPassword(password);
+                var gender = Request.Form["gender"];
+                Random random = new Random();
+                examRegister.ExamRegisterID = random.Next();
+                if (gender == "Male")
                 {
-                    var gender = Request.Form["gender"];
-                    Random random = new Random();
-                    examRegister.ExamRegisterID = random.Next();
-                    if (gender == "Male")
-                    {
-                        examRegister.Gender = true;
-                    }
-                    else
-                    {
-                        examRegister.Gender = false;
-                    }
-                    var data = JsonSerializer.Serialize(examRegister);
-                    var typeData = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
-                    HttpResponseMessage responseMessage = await httpClient.PostAsync(ApiUrl, typeData);
-                    if (responseMessage.IsSuccessStatusCode)
-                    {
-                        RedirectToAction("", "Login");
-                    }
-                    throw new ArgumentException("Register failed!");
+                    examRegister.Gender = true;
                 }
-                catch (Exception ex)
+                else
                 {
-                    throw new Exception(ex.Message);
+                    examRegister.Gender = false;
                 }
+                var data = JsonSerializer.Serialize(examRegister);
+                var typeData = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
+                HttpResponseMessage responseMessage = await httpClient.PostAsync(ApiUrl, typeData);
+                if (responseMessage.IsSuccessStatusCode)
+                {
+                    TempData["msg"] = "Register successfully.";
+                    return Redirect("~/Admin/RegisterAdmin/Register");
+                }
+                throw new ArgumentException("Register failed!");
+                //}
+                //return View();
             }
-            return View();
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
         // GET: RegisterAdminController/Details/5
         public ActionResult Details(int id)
