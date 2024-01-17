@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ObjectBussiness;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using X.PagedList;
@@ -9,11 +11,17 @@ using X.PagedList;
 namespace WebMVC.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class NewsAdminController : Controller
+    [Authorize(Roles = "Admin")]
+    [Authorize(AuthenticationSchemes = "Admin")]
+    public class NewsAdminController : BaseAdminController
     {
+        #region Variable
         private readonly HttpClient _httpClient = null;
         private string NewsApiUrl = "";
         PetroleumBusinessDBContext db;
+        #endregion
+
+        #region Constructor
         public NewsAdminController()
         {
             db = new PetroleumBusinessDBContext();
@@ -22,7 +30,9 @@ namespace WebMVC.Areas.Admin.Controllers
             _httpClient.DefaultRequestHeaders.Accept.Add(contentType);
             NewsApiUrl = "https://localhost:7274/api/NewsControllerApi";
         }
+        #endregion
         // GET: NewsController
+        #region Index
         public async Task<IActionResult> Index(int? page)
         {
             HttpResponseMessage res = await _httpClient.GetAsync(NewsApiUrl);
@@ -39,12 +49,13 @@ namespace WebMVC.Areas.Admin.Controllers
             IPagedList<News> pagedNewsList = newsList.ToPagedList(pageNumber, pageSize);
             return View(pagedNewsList);
         }
+        #endregion
 
 
         // GET: NewsController/Details/5
+        #region Detail
         public async Task<IActionResult> Details(int id)
-        {
-            // Gửi yêu cầu GET đến API để lấy thông tin chi tiết theo ID
+        {       
             HttpResponseMessage responseMessage = await _httpClient.GetAsync($"{NewsApiUrl}/{id}");
 
             if (responseMessage.IsSuccessStatusCode)
@@ -53,18 +64,17 @@ namespace WebMVC.Areas.Admin.Controllers
                 var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
                 var news = JsonSerializer.Deserialize<News>(data, options);
 
-                // Hiển thị chi tiết của news trên view
                 return View(news);
             }
             else
             {
-                // Hiển thị thông báo lỗi nếu không lấy được dữ liệu
                 return View("Error", new { message = $"Error fetching news details: {responseMessage.StatusCode}" });
             }
         }
-
+        #endregion
 
         // GET: NewsController/Create
+        #region Create
         public async Task<ActionResult> Create()
         {
             HttpResponseMessage responseMessage = await _httpClient.GetAsync("https://localhost:7274/api/NewsControllerApi/GetNewsCategory");
@@ -123,20 +133,22 @@ namespace WebMVC.Areas.Admin.Controllers
 
                 if (res.IsSuccessStatusCode)
                 {
-                    TempData["Message"] = "Post inserted successfully";
+                    SetAlert("Successfully created new news", "success");
                     return RedirectToAction(nameof(Index));
                 }
                 else
                 {
                     // Log error or handle API response
-                    TempData["Message"] = $"Error while calling Web API: {res.StatusCode}";
+                    ModelState.AddModelError("", "Creating new news failed");
                 }
             }
 
             return View(n);
         }
+        #endregion
 
         // GET: NewsController/Edit/5
+        #region Edit
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -166,6 +178,7 @@ namespace WebMVC.Areas.Admin.Controllers
             }
             return NotFound();
         }
+        
 
         // POST: NewsController/Edit/5
         [HttpPost]
@@ -179,19 +192,21 @@ namespace WebMVC.Areas.Admin.Controllers
                 HttpResponseMessage res = await _httpClient.PutAsync($"{NewsApiUrl}/{id}", contentData);
                 if (res.IsSuccessStatusCode)
                 {
-                    TempData["Message"] = "News updated successfully";
+                    SetAlert("News updated successfully", "warning");
                     return RedirectToAction(nameof(Index));
                 }
                 else
                 {
-                    TempData["Message"] = "Error while call Web API";
+                    ModelState.AddModelError("", "Error while call Web API");
+
                 }
             }
             return View(n);
         }
-
+        #endregion
 
         // GET: NewsController/Delete/5
+        #region Delete
         public async Task<IActionResult> Delete(int id)
         {
             HttpResponseMessage res = await _httpClient.GetAsync($"{NewsApiUrl}/{id}");
@@ -216,14 +231,46 @@ namespace WebMVC.Areas.Admin.Controllers
             HttpResponseMessage res = await _httpClient.DeleteAsync($"{NewsApiUrl}/{id}");
             if (res.IsSuccessStatusCode)
             {
-                TempData["Message"] = "Post deleted successfully";
+                SetAlert("News deleted successfully", "success");
                 return RedirectToAction(nameof(Index));
             }
             else
             {
-                TempData["Message"] = "Error while call Web API";
+                ModelState.AddModelError("", "Error while call Web API");
             }
             return RedirectToAction(nameof(Index));
         }
+        #endregion
+
+        // GET: DeleteId
+        #region DeleteId
+        [HttpPost]
+        public async Task<JsonResult> DeleteId(int id)
+        {
+            try
+            {
+                HttpResponseMessage responseMessage = await _httpClient.DeleteAsync($"{NewsApiUrl}/{id}");
+                HttpResponseMessage responseMessageData = await _httpClient.GetAsync(NewsApiUrl);
+                var data = await responseMessageData.Content.ReadAsStringAsync();
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true,
+                };
+                List<News> news = JsonSerializer.Deserialize<List<News>>(data, options);
+                if (news == null)
+                {
+                    return Json(new { success = false, message = "No news found" });
+                }
+                return Json(new
+                {
+                    status = true
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+        #endregion
     }
 }

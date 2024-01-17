@@ -16,6 +16,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Areas\Admin\Views\NewsAdmin\Create.cshtml" />
+    <None Include="Areas\Admin\Views\NewsAdmin\Delete.cshtml" />
+    <None Include="Areas\Admin\Views\NewsAdmin\Edit.cshtml" />
+    <None Include="Areas\Admin\Views\NewsAdmin\Index.cshtml" />
+    <None Include="Areas\Admin\Views\NewsCategory\Create.cshtml" />
+    <None Include="Areas\Admin\Views\NewsCategory\Delete.cshtml" />
+    <None Include="Areas\Admin\Views\NewsCategory\Edit.cshtml" />
+    <None Include="Areas\Admin\Views\NewsCategory\Index.cshtml" />
     <None Include="Views\Exam\ExamDashboard.cshtml" />
     <None Include="Views\Exam\Index.cshtml" />
     <None Include="Views\Home\Index.cshtml" />
