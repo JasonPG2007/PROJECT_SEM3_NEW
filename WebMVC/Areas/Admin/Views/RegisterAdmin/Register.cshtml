@@ -3,12 +3,16 @@
 @{
     ViewData["Title"] = "Register";
     Layout = "~/Views/Shared/_Layout2.cshtml";
+
+    List<SelectListItem> optionsNone = new List<SelectListItem>
+    {
+    };
 }
 <style>
     .register {
         /* background: -webkit-linear-gradient(left, #3931af, #00c6ff); */
         /* margin-top: 3%;
-                                            padding: 3%; */
+                                                padding: 3%; */
     }
 
     .register-left {
@@ -149,6 +153,9 @@
                                 <div class="form-group">
                                     @Html.EditorFor(model => model.City, new { htmlAttributes = new { @placeholder = "City *", @class = "form-control" } })
                                 </div>
+                                <div class="form-group">
+                                    <input name="password" type="password" placeholder="Password *" required/>
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -165,6 +172,25 @@
                                 </div>
                                 <div class="form-group">
                                     @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @placeholder = "Country *", @class = "form-control" } })
+                                </div>
+                                <div class="form-group">
+                                    <div style="display:flex">
+                                        <div>
+                                            @Html.LabelFor(model => model.ExamID, new { @class = "control-label col-md-2" })
+                                        </div>
+                                        <div>*</div>
+                                    </div>
+                                    <div class="col-md-10">
+                                        @if (ViewBag.Items == null)
+                                        {
+                                            @Html.DropDownListFor(model => model.ExamID, optionsNone, "No exam have been created yet", new { @class = "form-control" })
+                                        }
+                                        else
+                                        {
+                                            @Html.DropDownListFor(model => model.ExamID, ViewBag.Items as IEnumerable<SelectListItem>, "Select 1 item", new { @class = "form-control" })
+                                        }
+                                        @Html.ValidationMessageFor(model => model.ExamID, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
                             </div>
                             <input type="submit" class="btn btn-primary" value="Register" />

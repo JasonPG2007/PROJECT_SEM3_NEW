@@ -33,5 +33,8 @@ namespace ObjectBussiness
         public string Country { get; set; }
         [JsonIgnore]
         public virtual Account? Account { get; set; }
+        [NotMapped]
+        [Display(Name = "Exam ID")]
+        public int ExamID { get; set; }
     }
 }

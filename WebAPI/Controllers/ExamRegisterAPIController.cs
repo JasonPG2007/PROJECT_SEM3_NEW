@@ -12,8 +12,10 @@ namespace WebAPI.Controllers
     {
         private readonly IExamRegisterRepository examRegisterRepository;
         private readonly IAccountRepository accountRepository;
+        private readonly IExamRepository examRepository;
         public ExamRegisterAPIController()
         {
+            examRepository = new ExamRepository();
             accountRepository = new AccountRepository();
             examRegisterRepository = new ExamRegisterRepository();
         }
@@ -23,7 +25,12 @@ namespace WebAPI.Controllers
         {
             return new string[] { "value1", "value2" };
         }
-
+        [Route("GetExam")]
+        [HttpGet]
+        public IEnumerable<Exam> GetExams()
+        {
+            return examRepository.GetExams();
+        }
         // GET api/<ExamRegisterAPIController>/5
         [HttpGet("{id}")]
         public string Get(int id)

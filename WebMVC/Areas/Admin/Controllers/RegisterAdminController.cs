@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ObjectBussiness;
 using System.Net.Http.Headers;
 using System.Text.Json;
@@ -26,8 +27,25 @@ namespace WebMVC.Areas.Admin.Controllers
         {
             return View();
         }
-        public ActionResult Register()
+        public async Task<ActionResult> Register()
         {
+            HttpResponseMessage httpResponse = await httpClient.GetAsync("https://localhost:7274/api/ExamRegisterAPI/GetExam");
+            var data = await httpResponse.Content.ReadAsStringAsync();
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+            };
+            List<Exam> exams = JsonSerializer.Deserialize<List<Exam>>(data, options);
+            var listExams = exams;
+            var selectList = new List<SelectListItem>();
+            foreach (var item in listExams)
+            {
+                selectList.Add(new SelectListItem { Value = $"{item.ExamID}", Text = item.ExamName});
+            }
+            if (selectList.Count > 0)
+            {
+                ViewBag.Items = selectList;
+            }
             return View();
         }
         [HttpPost]
@@ -36,13 +54,19 @@ namespace WebMVC.Areas.Admin.Controllers
         {
             try
             {
+                Random random = new Random();
                 //if (ModelState.IsValid)
                 //{
+
+                examRegister.ExamRegisterID = random.Next();
+
                 Account account = new Account();
+                account.AccountID = random.Next();
+                account.Password = password;
+                account.ExamID = examRegister.ExamID;
+                account.ExamRegisterID = examRegister.ExamRegisterID;
 
                 var gender = Request.Form["gender"];
-                Random random = new Random();
-                examRegister.ExamRegisterID = random.Next();
                 if (gender == "Male")
                 {
                     examRegister.Gender = true;
@@ -54,12 +78,17 @@ namespace WebMVC.Areas.Admin.Controllers
                 var data = JsonSerializer.Serialize(examRegister);
                 var typeData = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
                 HttpResponseMessage responseMessage = await httpClient.PostAsync(ApiUrl, typeData);
-                if (responseMessage.IsSuccessStatusCode)
+
+                var dataAccount = JsonSerializer.Serialize(account);
+                var typeDataAccount = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
+                HttpResponseMessage responseMessageAccount = await httpClient.PostAsync("https://localhost:7274/api/ExamRegisterAPI/PostAccount", typeDataAccount);
+
+                if (responseMessage.IsSuccessStatusCode && responseMessageAccount.IsSuccessStatusCode)
                 {
                     TempData["msg"] = "Register successfully.";
                     return Redirect("~/Admin/RegisterAdmin/Register");
                 }
-                throw new ArgumentException("Register failed!");
+                throw new ArgumentException("Register or create account failed!");
                 //}
                 //return View();
             }
