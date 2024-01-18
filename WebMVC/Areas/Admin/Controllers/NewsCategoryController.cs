@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ObjectBussiness;
 using System.Net.Http.Headers;
@@ -9,12 +8,14 @@ using X.PagedList;
 namespace WebMVC.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Admin")]
-    [Authorize(AuthenticationSchemes = "Admin")]
-    public class NewsCategoryController : Controller
+    public class NewsCategoryController : BaseAdminController
     {
+        #region Varieble
         private readonly HttpClient _httpClient = null;
         private string NewsCategoryApiUrl = "";
+        #endregion
+
+        #region Construct
         public NewsCategoryController()
         {
             _httpClient = new HttpClient();
@@ -22,6 +23,9 @@ namespace WebMVC.Areas.Admin.Controllers
             _httpClient.DefaultRequestHeaders.Accept.Add(contentType);
             NewsCategoryApiUrl = "https://localhost:7274/api/NewsCategoryControllerApi";
         }
+        #endregion
+
+        #region Index
         // GET: NewsCategoryController
         public async Task<IActionResult> Index(int? page)
         {
@@ -37,13 +41,9 @@ namespace WebMVC.Areas.Admin.Controllers
             IPagedList<NewsCategory> pagedNewsCategories = newsCategoryList.ToPagedList(pageNumber, pageSize);
             return View(pagedNewsCategories);
         }
+#endregion
 
-        // GET: NewsCategoryController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
+        #region Create
         // GET: NewsCategoryController/Create
         public ActionResult Create()
         {
@@ -66,17 +66,19 @@ namespace WebMVC.Areas.Admin.Controllers
 
                 if (res.IsSuccessStatusCode)
                 {
-                    TempData["Message"] = "News category inserted successfully";
+                    SetAlert("News category inserted successfully", "success");
                     return RedirectToAction(nameof(Index));
                 }
                 else
                 {
-                    TempData["Message"] = "Error while calling Web API";
+                    ModelState.AddModelError("", "Error while calling Web API");
                 }
             }
             return View(n);
         }
+        #endregion
 
+        #region Edit
         // GET: NewsCategoryController/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
@@ -93,7 +95,6 @@ namespace WebMVC.Areas.Admin.Controllers
             }
             return View();
         }
-
         // POST: NewsCategoryController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -106,17 +107,19 @@ namespace WebMVC.Areas.Admin.Controllers
                 HttpResponseMessage res = await _httpClient.PutAsync($"{NewsCategoryApiUrl}/{id}", contentData);
                 if (res.IsSuccessStatusCode)
                 {
-                    TempData["Message"] = "Category updated successfully";
+                    SetAlert("Category updated successfully", "warning");
                     return RedirectToAction(nameof(Index));
                 }
                 else
                 {
-                    TempData["Message"] = "Error while call Web API";
+                    ModelState.AddModelError("", "Error while call Web API");
                 }
             }
             return View(n);
         }
+        #endregion
 
+        #region Delete
         // GET: NewsCategoryController/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
@@ -142,14 +145,46 @@ namespace WebMVC.Areas.Admin.Controllers
             HttpResponseMessage res = await _httpClient.DeleteAsync($"{NewsCategoryApiUrl}/{id}");
             if (res.IsSuccessStatusCode)
             {
-                TempData["Message"] = "Category deleted successfully";
+                SetAlert("Category deleted successfully", "success");
                 return RedirectToAction(nameof(Index));
             }
             else
             {
-                TempData["Message"] = "Error while call Web API";
+                ModelState.AddModelError("", "Error while call Web API");
             }
             return RedirectToAction(nameof(Index));
         }
+        #endregion
+
+        // GET: DeleteId
+        #region DeleteId
+        [HttpPost]
+        public async Task<JsonResult> DeleteId(int id)
+        {
+            try
+            {
+                HttpResponseMessage responseMessage = await _httpClient.DeleteAsync($"{NewsCategoryApiUrl}/{id}");
+                HttpResponseMessage responseMessageData = await _httpClient.GetAsync(NewsCategoryApiUrl);
+                var data = await responseMessageData.Content.ReadAsStringAsync();
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true,
+                };
+                List<NewsCategory> newsCategories = JsonSerializer.Deserialize<List<NewsCategory>>(data, options);
+                if (newsCategories == null)
+                {
+                    return Json(new { success = false, message = "No newscategory found" });
+                }
+                return Json(new
+                {
+                    status = true
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+        #endregion
     }
 }
