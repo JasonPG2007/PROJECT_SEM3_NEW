@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ObjectBussiness;
 using System.Net.Http.Headers;
@@ -8,6 +9,8 @@ using X.PagedList;
 namespace WebMVC.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
+    [Authorize(AuthenticationSchemes = "Admin")]
     public class NewsCategoryController : BaseAdminController
     {
         #region Varieble
@@ -41,7 +44,7 @@ namespace WebMVC.Areas.Admin.Controllers
             IPagedList<NewsCategory> pagedNewsCategories = newsCategoryList.ToPagedList(pageNumber, pageSize);
             return View(pagedNewsCategories);
         }
-#endregion
+        #endregion
 
         #region Create
         // GET: NewsCategoryController/Create
@@ -67,7 +70,7 @@ namespace WebMVC.Areas.Admin.Controllers
                 if (res.IsSuccessStatusCode)
                 {
                     SetAlert("News category inserted successfully", "success");
-                    return RedirectToAction(nameof(Index));
+                    return Redirect("~/Admin/NewsAdmin");
                 }
                 else
                 {
@@ -108,7 +111,7 @@ namespace WebMVC.Areas.Admin.Controllers
                 if (res.IsSuccessStatusCode)
                 {
                     SetAlert("Category updated successfully", "warning");
-                    return RedirectToAction(nameof(Index));
+                    return Redirect("~/Admin/NewsAdmin");
                 }
                 else
                 {
@@ -146,13 +149,13 @@ namespace WebMVC.Areas.Admin.Controllers
             if (res.IsSuccessStatusCode)
             {
                 SetAlert("Category deleted successfully", "success");
-                return RedirectToAction(nameof(Index));
+                return Redirect("~/Admin/NewsAdmin");
             }
             else
             {
                 ModelState.AddModelError("", "Error while call Web API");
             }
-            return RedirectToAction(nameof(Index));
+            return Redirect("~/Admin/NewsAdmin");
         }
         #endregion
 

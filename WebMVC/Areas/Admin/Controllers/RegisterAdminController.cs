@@ -36,11 +36,10 @@ namespace WebMVC.Areas.Admin.Controllers
                 PropertyNameCaseInsensitive = true,
             };
             List<Exam> exams = JsonSerializer.Deserialize<List<Exam>>(data, options);
-            var listExams = exams;
             var selectList = new List<SelectListItem>();
-            foreach (var item in listExams)
+            foreach (var item in exams)
             {
-                selectList.Add(new SelectListItem { Value = $"{item.ExamID}", Text = item.ExamName});
+                selectList.Add(new SelectListItem { Value = item.ExamID.ToString(), Text = item.ExamName });
             }
             if (selectList.Count > 0)
             {

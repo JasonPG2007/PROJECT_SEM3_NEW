@@ -30,11 +30,10 @@
         </dl>
         <br />
 
-        @using (Html.BeginForm("Delete", "NewsCategory", FormMethod.Post))
-        {
+        <form action="Delete" method="post">
             <input type="hidden" asp-for="CategoryID" />
             <input type="submit" value="Delete" class="btn btn-danger" />
-            @Html.ActionLink("Back To List", "Index", "NewsCategory", null, new { @class = "btn btn-success" })
-        }
+            <a href="~/Admin/NewsCategory" class="btn btn-success">Back To List</a>
+        </form>
     </div>
 </div>

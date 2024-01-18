@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ObjectBussiness;
@@ -10,6 +11,8 @@ using X.PagedList;
 namespace WebMVC.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
+    [Authorize(AuthenticationSchemes = "Admin")]
     public class NewsAdminController : BaseAdminController
     {
         #region Variable
@@ -52,7 +55,7 @@ namespace WebMVC.Areas.Admin.Controllers
         // GET: NewsController/Details/5
         #region Detail
         public async Task<IActionResult> Details(int id)
-        {       
+        {
             HttpResponseMessage responseMessage = await _httpClient.GetAsync($"{NewsApiUrl}/{id}");
 
             if (responseMessage.IsSuccessStatusCode)
@@ -131,7 +134,7 @@ namespace WebMVC.Areas.Admin.Controllers
                 if (res.IsSuccessStatusCode)
                 {
                     SetAlert("Successfully created new news", "success");
-                    return RedirectToAction(nameof(Index));
+                    return Redirect("~/Admin/NewsAdmin");
                 }
                 else
                 {
@@ -175,7 +178,7 @@ namespace WebMVC.Areas.Admin.Controllers
             }
             return NotFound();
         }
-        
+
 
         // POST: NewsController/Edit/5
         [HttpPost]
@@ -190,7 +193,7 @@ namespace WebMVC.Areas.Admin.Controllers
                 if (res.IsSuccessStatusCode)
                 {
                     SetAlert("News updated successfully", "warning");
-                    return RedirectToAction(nameof(Index));
+                    return Redirect("~/Admin/NewsAdmin");
                 }
                 else
                 {
@@ -229,13 +232,13 @@ namespace WebMVC.Areas.Admin.Controllers
             if (res.IsSuccessStatusCode)
             {
                 SetAlert("News deleted successfully", "success");
-                return RedirectToAction(nameof(Index));
+                return Redirect("~/Admin/NewsAdmin");
             }
             else
             {
                 ModelState.AddModelError("", "Error while call Web API");
             }
-            return RedirectToAction(nameof(Index));
+            return Redirect("~/Admin/NewsAdmin");
         }
         #endregion
 

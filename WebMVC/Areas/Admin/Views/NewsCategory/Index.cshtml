@@ -24,8 +24,7 @@
     </div>
     <br />
 
-    @using (Html.BeginForm("Index", "NewsCategory", FormMethod.Post))
-    {
+    <form action="" method="post">
         <div class="row">
             <div class="col-12">
                 <div class="card mb-4">
@@ -42,7 +41,7 @@
                                         </th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             @Html.DisplayNameFor(model => model.CategoryName)
-                                        </th>                                      
+                                        </th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -66,9 +65,9 @@
                                             </td>
                                             <td>
                                                 <div>
-                                                    <button type="button" class="btn btn-success">@Html.ActionLink("Update", "Edit", new { id = item.CategoryID })</button>&nbsp;
+                                                    <button type="button" class="btn btn-success"><a href="~/Admin/NewsCategory/Edit/@item.CategoryID"></a></button>&nbsp;
                                                     <a href="#" class="delete-link btn btn-danger" data-id="@item.CategoryID" data-confirm="Do you really want to delete it?" data-toggle="modal" data-target="#confirmModal">Delete</a>
-                            
+
                                                 </div>
                                             </td>
                                         </tr>
@@ -96,12 +95,12 @@
                 </div>
             </div>
         </div>
-    }
+    </form>
 </div>
-   
-    <button type="button" class="btn btn-info">
+
+<button type="button" class="btn btn-info">
     @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page = page }))
-    </button>
+</button>
 
 @section Scripts {
 

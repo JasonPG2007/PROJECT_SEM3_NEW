@@ -12,7 +12,7 @@
     .register {
         /* background: -webkit-linear-gradient(left, #3931af, #00c6ff); */
         /* margin-top: 3%;
-                                                        padding: 3%; */
+                                                                padding: 3%; */
     }
 
     .register-left {
@@ -185,7 +185,7 @@
                                         }
                                         else
                                         {
-                                            @Html.DropDownListFor(model => model.ExamID, (IEnumerable<SelectListItem>)ViewBag.Items, "Select 1 item", new { @class = "form-control", onchange = "this.form.submit();" })
+                                            @Html.DropDownListFor(model => model.ExamID, ViewBag.Items as IEnumerable<SelectListItem>, "Select 1 item", new { @class = "form-control" })
                                         }
                                         @Html.ValidationMessageFor(model => model.ExamID, "", new { @class = "text-danger" })
                                     </div>
