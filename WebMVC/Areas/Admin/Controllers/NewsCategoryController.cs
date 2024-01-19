@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ObjectBussiness;
 using System.Net.Http.Headers;
@@ -9,8 +8,6 @@ using X.PagedList;
 namespace WebMVC.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Admin")]
-    [Authorize(AuthenticationSchemes = "Admin")]
     public class NewsCategoryController : BaseAdminController
     {
         #region Varieble
@@ -70,7 +67,7 @@ namespace WebMVC.Areas.Admin.Controllers
                 if (res.IsSuccessStatusCode)
                 {
                     SetAlert("News category inserted successfully", "success");
-                    return Redirect("~/Admin/NewsAdmin");
+                    return RedirectToAction(nameof(Index));
                 }
                 else
                 {
@@ -111,7 +108,7 @@ namespace WebMVC.Areas.Admin.Controllers
                 if (res.IsSuccessStatusCode)
                 {
                     SetAlert("Category updated successfully", "warning");
-                    return Redirect("~/Admin/NewsAdmin");
+                    return RedirectToAction(nameof(Index));
                 }
                 else
                 {
@@ -149,13 +146,13 @@ namespace WebMVC.Areas.Admin.Controllers
             if (res.IsSuccessStatusCode)
             {
                 SetAlert("Category deleted successfully", "success");
-                return Redirect("~/Admin/NewsAdmin");
+                return RedirectToAction(nameof(Index));
             }
             else
             {
                 ModelState.AddModelError("", "Error while call Web API");
             }
-            return Redirect("~/Admin/NewsAdmin");
+            return RedirectToAction(nameof(Index));
         }
         #endregion
 

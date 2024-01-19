@@ -1,4 +1,4 @@
-﻿@using X.PagedList;
+﻿﻿@using X.PagedList;
 @using X.PagedList.Mvc.Core;
 @model IEnumerable<ObjectBussiness.NewsCategory>
 
@@ -24,7 +24,8 @@
     </div>
     <br />
 
-    <form action="" method="post">
+    @using (Html.BeginForm("Index", "NewsCategory", FormMethod.Post))
+    {
         <div class="row">
             <div class="col-12">
                 <div class="card mb-4">
@@ -65,7 +66,7 @@
                                             </td>
                                             <td>
                                                 <div>
-                                                    <button type="button" class="btn btn-success"><a href="~/Admin/NewsCategory/Edit/@item.CategoryID"></a></button>&nbsp;
+                                                    <button type="button" class="btn btn-success">@Html.ActionLink("Update", "Edit", new { id = item.CategoryID })</button>&nbsp;
                                                     <a href="#" class="delete-link btn btn-danger" data-id="@item.CategoryID" data-confirm="Do you really want to delete it?" data-toggle="modal" data-target="#confirmModal">Delete</a>
 
                                                 </div>
@@ -95,7 +96,7 @@
                 </div>
             </div>
         </div>
-    </form>
+    }
 </div>
 
 <button type="button" class="btn btn-info">
@@ -155,8 +156,3 @@
 
     </script>
 }
-
-
-
-
-
